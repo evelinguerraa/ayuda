@@ -139,6 +139,41 @@
     border-radius:20px; padding:2px 9px; white-space:nowrap;
   }
 
+  /* bloque de comunidad */
+  .comunidad-borde{
+    background:var(--degradado); padding:1.6px; border-radius:19px;
+    margin-top:40px; box-shadow:0 16px 46px -22px rgba(229,18,125,.85);
+  }
+  .comunidad{
+    background:linear-gradient(150deg,#16131F 0%,#0D0D14 100%);
+    border-radius:17.6px; padding:26px 24px 24px;
+  }
+  .comunidad .kicker{
+    font-family:"Sora",sans-serif; font-size:11px; font-weight:700;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--magenta);
+    display:block; margin-bottom:9px;
+  }
+  .comunidad h2{
+    font-family:"Sora",sans-serif; font-size:clamp(20px,4.2vw,25px); font-weight:800;
+    margin:0 0 10px; line-height:1.2; letter-spacing:-.015em; color:var(--text);
+    text-wrap:balance;
+  }
+  .comunidad p{ margin:0 0 8px; font-size:14.5px; line-height:1.6; color:var(--muted); }
+  .comunidad p b{ color:var(--text); font-weight:600; }
+  .comunidad p.clave{ font-size:13.5px; color:var(--faint); }
+  .comunidad p.clave b{ color:var(--naranja); font-weight:600; }
+
+  a.btn-comunidad{
+    display:inline-flex; align-items:center; gap:9px;
+    background:var(--degradado); color:#fff; text-decoration:none;
+    font-family:"Sora",sans-serif; font-weight:700; font-size:15px;
+    padding:12px 22px; border-radius:11px; margin-top:14px;
+    box-shadow:0 8px 26px -10px rgba(123,47,247,.95);
+    transition:transform .18s ease, box-shadow .22s ease;
+  }
+  a.btn-comunidad:hover{ transform:translateY(-2px); box-shadow:0 13px 34px -10px rgba(229,18,125,1); }
+  a.btn-comunidad:focus-visible{ outline:2px solid #fff; outline-offset:3px; }
+
   footer{
     margin-top:42px; padding-top:20px;
     border-top:1px solid var(--line-solid);
@@ -343,6 +378,17 @@
     </div>
   </div>
 
+  <div class="comunidad-borde">
+    <div class="comunidad">
+      <span class="kicker">La comunidad</span>
+      <h2>¿Te sirvió? Esto es la punta del ovillo.</h2>
+      <p>Las herramientas te resuelven el rato. Lo que cambia el resultado es entender <b>por qué</b> va primero la Plataforma, después la Presencia y recién ahí la Publicidad — que es donde casi todos empiezan, y por eso les sale caro.</p>
+      <p>Eso lo trabajamos adentro de mi comunidad. Entrá, mirá, y preguntame lo que quieras.</p>
+      <p class="clave">Ah — y la <b>clave</b> de los dos generadores de páginas también se pide ahí adentro.</p>
+      <a class="btn-comunidad" href="https://www.skool.com/metodo-3p-de-evelina-guerra-6868/about">Entrar a la comunidad →</a>
+    </div>
+  </div>
+
   <footer>
     Método 3P · <a href="https://www.evelinaguerra.click/metodo3p">evelinaguerra.click</a> · <a href="https://instagram.com/evelinaaguerra">@evelinaaguerra</a>
   </footer>
@@ -373,7 +419,7 @@
     }catch(e){}
   }
 
-  Array.prototype.forEach.call(document.querySelectorAll('a.tool'), function(a){
+  Array.prototype.forEach.call(document.querySelectorAll('a.tool, a.btn-comunidad'), function(a){
     a.addEventListener('click', function(e){
       // si abre en pestaña nueva o con teclas, no nos metemos
       if(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
