@@ -1,5 +1,15 @@
 <title>Generador de Prompts</title>
 <meta name="description" content="Subí la foto de tu producto y armá el prompt exacto para que ChatGPT o Gemini te la conviertan en una foto profesional, sin cambiarte el producto.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B0B0F'/%3E%3Crect x='6' y='19' width='5' height='8' rx='2' fill='%231668FF'/%3E%3Crect x='13.5' y='13' width='5' height='14' rx='2' fill='%237B2FF7'/%3E%3Crect x='21' y='6' width='5' height='21' rx='2' fill='%23E5127D'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://evelinguerraa.github.io/ayuda/prompts/">
+<meta property="og:title" content="Generador de Prompts para Imágenes">
+<meta property="og:description" content="Subí la foto de tu producto y te arma el texto exacto para que ChatGPT o Gemini te la conviertan en una foto profesional, sin cambiarte el producto.">
+<meta property="og:image" content="https://evelinguerraa.github.io/ayuda/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="es_AR">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -179,10 +189,50 @@
     margin-top:34px; padding-top:16px; border-top:1px solid var(--line);
     font-size:13px; color:var(--ink-soft); line-height:1.6;
   }
+
+  a.volver{
+    display:inline-flex; align-items:center; gap:7px;
+    font-size:13.5px; font-weight:600; color:var(--violeta);
+    text-decoration:none; margin-bottom:16px;
+  }
+  a.volver:hover{ text-decoration:underline; }
+  a.volver:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+
+  .comunidad-borde{
+    background:linear-gradient(90deg,#1668FF 0%,#7B2FF7 48%,#E5127D 100%);
+    padding:1.6px; border-radius:16px; margin-top:34px;
+    box-shadow:0 14px 40px -22px rgba(229,18,125,.8);
+  }
+  .comunidad{
+    background:#0D0D14; border-radius:14.6px; padding:24px 22px 22px; color:#F5F4FA;
+  }
+  .comunidad .kicker{
+    font-family:"Sora",sans-serif; font-size:10.5px; font-weight:700;
+    letter-spacing:.16em; text-transform:uppercase; color:#FF6FB4;
+    display:block; margin-bottom:8px;
+  }
+  .comunidad h2{
+    font-family:"Sora",sans-serif; font-size:21px; font-weight:800;
+    margin:0 0 9px; line-height:1.22; letter-spacing:-.015em; color:#F5F4FA;
+    text-transform:none;
+  }
+  .comunidad p{ margin:0 0 8px; font-size:14px; line-height:1.6; color:#A8A5BC; }
+  .comunidad p b{ color:#F5F4FA; font-weight:600; }
+  a.btn-comunidad{
+    display:inline-flex; align-items:center; gap:8px;
+    background:linear-gradient(90deg,#1668FF 0%,#7B2FF7 48%,#E5127D 100%);
+    color:#fff; text-decoration:none;
+    font-family:"Sora",sans-serif; font-weight:700; font-size:14.5px;
+    padding:11px 20px; border-radius:10px; margin-top:12px;
+    box-shadow:0 8px 24px -10px rgba(123,47,247,.95);
+  }
+  a.btn-comunidad:hover{ filter:brightness(1.07); }
+  a.btn-comunidad:focus-visible{ outline:2px solid #fff; outline-offset:3px; }
 </style>
 
 <div class="wrap">
   <header class="top">
+    <a class="volver" href="/ayuda/">← Todas las herramientas</a>
     <div class="brand">M3P ADS</div>
     <h1>Generador de Prompts para Imágenes</h1>
     <p class="lede">Regalo de la <strong>Clase 3</strong> del Desafío 3P. Acá no inventamos un producto de la nada — vos subís la foto de <strong>tu producto real</strong>, y el prompt le ordena a la inteligencia artificial que no te lo toque: que solo le mejore el fondo y la luz.</p>
@@ -289,8 +339,18 @@
     </ul>
   </section>
 
+  <div class="comunidad-borde">
+    <div class="comunidad">
+      <span class="kicker">La comunidad</span>
+      <h2>¿Te sirvió? Esto es la punta del ovillo.</h2>
+      <p>Una buena foto ayuda, pero sola no vende. Lo que cambia el resultado es entender <b>por qué</b> va primero la Plataforma, después la Presencia y recién ahí la Publicidad — que es donde casi todos empiezan, y por eso les sale caro.</p>
+      <p>Eso lo trabajamos adentro de mi comunidad. Entrá, mirá, y preguntame lo que quieras.</p>
+      <a class="btn-comunidad" href="https://www.skool.com/metodo-3p-de-evelina-guerra-6868/about">Entrar a la comunidad →</a>
+    </div>
+  </div>
+
   <div class="foot">
-    Hecho para el Desafío 3P · M3P Ads
+    Hecho para el Desafío 3P · <a href="/ayuda/" style="color:var(--violeta)">M3P Ads</a>
   </div>
 </div>
 
@@ -467,6 +527,16 @@
 
     document.getElementById('empty').hidden = true;
     cardsEl.hidden = false;
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll('a.btn-comunidad'), function(a){
+    a.addEventListener('click', function(e){
+      if(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      plin();
+      var destino = a.getAttribute('href');
+      setTimeout(function(){ window.location.href = destino; }, 130);
+    });
   });
 
   function fallbackCopy(text, done){
