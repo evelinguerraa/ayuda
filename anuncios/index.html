@@ -273,6 +273,14 @@
         </div>
 
         <div class="field">
+          <label for="tengoimagen">¿Ya tenés la imagen hecha?</label>
+          <select id="tengoimagen">
+            <option value="no">Todavía no</option>
+            <option value="si">Sí, ya la tengo</option>
+          </select>
+        </div>
+
+        <div class="field">
           <label for="tono">Tono</label>
           <select id="tono">
             <option value="cercano">Cercano y directo</option>
@@ -384,6 +392,24 @@
       'Nada de promesas exageradas ni de palabras que Meta pueda rechazar. Hablame de vos, no de usted. Sin emojis de más: uno al final del texto principal como mucho.';
   }
 
+  function promptConImagen(d){
+    return 'Te subí la imagen de mi anuncio, que ya tengo diseñada. Mirala bien y escribime el texto que la va a acompañar cuando lo publique en Instagram y Facebook.\n\n' +
+      'MI NEGOCIO:\n' +
+      '- Vendo: ' + d.producto + '.\n' +
+      (d.cliente ? '- Le vendo a: ' + d.cliente + '.\n' : '') +
+      '- El problema que tiene hoy: ' + d.problema + '.\n' +
+      '- Lo que gana conmigo: ' + d.beneficio + '.\n' +
+      (d.oferta ? '- Mi oferta: ' + d.oferta + '.\n' : '') +
+      '- Quiero que la persona: ' + textoAccion(d.accion) + '.\n' +
+      '- Tono: ' + d.tono + '.\n\n' +
+      'Dame estos tres campos, listos para pegar en el Administrador de anuncios:\n' +
+      '1. Texto principal (que lo más importante entre en los primeros 125 caracteres, porque el resto se corta en el celular)\n' +
+      '2. Título (máximo 40 caracteres)\n' +
+      '3. Descripción (máximo 30 caracteres)\n\n' +
+      'IMPORTANTE: el texto tiene que SUMAR a lo que ya dice la imagen, no repetirlo. Si en la imagen ya está el precio, no lo repitas en el título: usá ese lugar para otra cosa. Si la imagen ya hace la pregunta, el texto tiene que dar la respuesta.\n\n' +
+      'Español rioplatense, hablame de vos. Nada de promesas exageradas ni de palabras que Meta pueda rechazar.';
+  }
+
   function textoAccion(a){
     return { whatsapp:'me escriba por WhatsApp', instagram:'me mande un mensaje por Instagram',
              web:'entre a mi página', llamada:'me llame' }[a];
@@ -448,7 +474,8 @@
       beneficio: document.getElementById('beneficio').value.trim(),
       accion: document.getElementById('accion').value,
       oferta: document.getElementById('oferta').value.trim(),
-      tono: document.getElementById('tono').value
+      tono: document.getElementById('tono').value,
+      tengoimagen: document.getElementById('tengoimagen').value
     };
     if(!d.producto){ document.getElementById('producto').focus(); return; }
     if(!d.problema){ document.getElementById('problema').focus(); return; }
@@ -479,12 +506,18 @@
     b2.appendChild(tarjeta('Para pegar en la IA', promptVariantes(d)));
     out.appendChild(b2);
 
-    var sig = document.createElement('div');
-    sig.className = 'siguiente';
-    sig.innerHTML = '<h3>Te falta la imagen</h3>' +
-      '<p>El texto ya lo tenés. Ahora la imagen, que es la que frena el scroll — y sirve tengas o no tengas una foto de lo que vendés.</p>' +
-      '<a href="/ayuda/imagen">Ir a Imagen para tu Anuncio →</a>';
-    out.appendChild(sig);
+    if(d.tengoimagen === 'si'){
+      var b3 = bloque('3', 'Si querés que el texto vaya con tu imagen', 'Subí tu imagen ya hecha a ChatGPT o Gemini, pegá esto abajo, y te va a escribir el texto mirándola — para que sume en vez de repetir lo que la imagen ya dice.');
+      b3.appendChild(tarjeta('Para pegar junto con tu imagen', promptConImagen(d)));
+      out.appendChild(b3);
+    } else {
+      var sig = document.createElement('div');
+      sig.className = 'siguiente';
+      sig.innerHTML = '<h3>Te falta la imagen</h3>' +
+        '<p>El texto ya lo tenés. Ahora la imagen, que es la que frena el scroll — y sirve tengas o no tengas una foto de lo que vendés.</p>' +
+        '<a href="/ayuda/imagen">Ir a Imagen para tu Anuncio →</a>';
+      out.appendChild(sig);
+    }
 
     document.getElementById('empty').hidden = true;
     out.hidden = false;
