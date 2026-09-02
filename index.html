@@ -349,3 +349,40 @@
     Método 3P · <a href="https://www.evelinaguerra.click/metodo3p">evelinaguerra.click</a> · <a href="https://instagram.com/evelinaaguerra">@evelinaaguerra</a>
   </footer>
 </div>
+
+<script>
+  // "plin" corto, generado por codigo — sin archivo de audio
+  var ctxAudio;
+  function plin(){
+    try{
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return;
+      ctxAudio = ctxAudio || new AC();
+      if(ctxAudio.state === 'suspended'){ ctxAudio.resume(); }
+      var t = ctxAudio.currentTime;
+      [[880, 0], [1318.5, 0.055]].forEach(function(par){
+        var osc = ctxAudio.createOscillator();
+        var vol = ctxAudio.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = par[0];
+        vol.gain.setValueAtTime(0.0001, t + par[1]);
+        vol.gain.exponentialRampToValueAtTime(0.11, t + par[1] + 0.012);
+        vol.gain.exponentialRampToValueAtTime(0.0001, t + par[1] + 0.30);
+        osc.connect(vol); vol.connect(ctxAudio.destination);
+        osc.start(t + par[1]);
+        osc.stop(t + par[1] + 0.34);
+      });
+    }catch(e){}
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('a.tool'), function(a){
+    a.addEventListener('click', function(e){
+      // si abre en pestaña nueva o con teclas, no nos metemos
+      if(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      plin();
+      var destino = a.getAttribute('href');
+      setTimeout(function(){ window.location.href = destino; }, 130);
+    });
+  });
+</script>

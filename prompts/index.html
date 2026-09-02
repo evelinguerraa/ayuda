@@ -295,6 +295,30 @@
 </div>
 
 <script>
+  // "plin" corto, generado por codigo — sin archivo de audio
+  var ctxAudio;
+  function plin(){
+    try{
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return;
+      ctxAudio = ctxAudio || new AC();
+      if(ctxAudio.state === 'suspended'){ ctxAudio.resume(); }
+      var t = ctxAudio.currentTime;
+      [[880, 0], [1318.5, 0.055]].forEach(function(par){
+        var osc = ctxAudio.createOscillator();
+        var vol = ctxAudio.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = par[0];
+        vol.gain.setValueAtTime(0.0001, t + par[1]);
+        vol.gain.exponentialRampToValueAtTime(0.11, t + par[1] + 0.012);
+        vol.gain.exponentialRampToValueAtTime(0.0001, t + par[1] + 0.30);
+        osc.connect(vol); vol.connect(ctxAudio.destination);
+        osc.start(t + par[1]);
+        osc.stop(t + par[1] + 0.34);
+      });
+    }catch(e){}
+  }
+
   var escenas = {
     auto:   "el ambiente donde esto se usa o se luce naturalmente — elegí vos cuál corresponde, y que se vea como un lugar real y habitado, no como un decorado armado",
     persona:"una situación cotidiana donde una persona real lo está usando, llevando puesto o sosteniendo, sin que la cara sea el foco de la imagen",
@@ -419,6 +443,7 @@
       btn.textContent = 'Copiar';
       btn.addEventListener('click', function(){
         var done = function(){
+          plin();
           btn.textContent = '¡Copiado!';
           btn.classList.add('copied');
           setTimeout(function(){
