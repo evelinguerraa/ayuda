@@ -144,19 +144,7 @@
   .tool:hover h3 .flecha{ transform:translateX(4px); }
   .tool p{ margin:0; font-size:14px; line-height:1.55; color:var(--muted); }
 
-  /* tarjeta sin herramienta todavia */
-  .tool.proximamente{
-    cursor:default; opacity:.62;
-    background:linear-gradient(150deg,rgba(26,26,38,.5),rgba(19,19,28,.5));
-    border-style:dashed;
-  }
-  .tool.proximamente:hover{ transform:none; border-color:var(--line-solid); box-shadow:none; }
-  .pronto{
-    font-family:"Work Sans",sans-serif; font-size:10px; font-weight:700;
-    letter-spacing:.09em; text-transform:uppercase;
-    color:var(--faint); border:1px solid var(--line-solid);
-    border-radius:20px; padding:2px 9px; white-space:nowrap;
-  }
+  .tool:hover h3 .flecha.abajo{ transform:translateY(3px); }
 
   .llave{
     font-family:"Work Sans",sans-serif; font-size:10px; font-weight:700;
@@ -171,6 +159,12 @@
   .comunidad-borde{
     background:var(--degradado); padding:1.6px; border-radius:19px;
     margin-top:40px; box-shadow:0 16px 46px -22px rgba(229,18,125,.85);
+    scroll-margin-top:24px; outline:none;
+  }
+  .comunidad-borde.destacar{ animation:latir 1.5s ease-out 1; }
+  @keyframes latir{
+    0%,100%{ box-shadow:0 16px 46px -22px rgba(229,18,125,.85); transform:none; }
+    22%    { box-shadow:0 0 0 5px rgba(123,47,247,.28), 0 16px 52px -18px rgba(229,18,125,1); transform:translateY(-3px); }
   }
   .comunidad{
     background:linear-gradient(150deg,#16131F 0%,#0D0D14 100%);
@@ -360,7 +354,7 @@
   <div class="grupo">
     <h2><span class="punto" style="--acc:#1668FF"></span>1 · Plataforma</h2>
     <div class="tools">
-      <a class="tool" href="https://www.skool.com/metodo-3p-de-evelina-guerra-6868/about" style="--acc:#1668FF">
+      <a class="tool" href="#comunidad" style="--acc:#1668FF">
         <span class="ico">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 2.9l8.4 4.2v5.4c0 4.3-3.4 7.6-8.4 8.6-5-1-8.4-4.3-8.4-8.6V7.1z"/>
@@ -368,7 +362,7 @@
           </svg>
         </span>
         <span class="txt">
-          <h3>Acá no hay herramienta <span class="flecha">→</span></h3>
+          <h3>Acá no hay herramienta <span class="flecha abajo">↓</span></h3>
           <p>¿Seguís apretando "Promocionar" desde el celular porque el Administrador te resultó chino? ¿Tenés todo colgado de tu perfil personal, y miedo de tocar algo y romper lo poco que anda? Eso no lo arregla un generador. Se arregla una sola vez, bien hecho, y acompañada.</p>
         </span>
       </a>
@@ -460,7 +454,7 @@
     </div>
   </div>
 
-  <div class="comunidad-borde">
+  <div class="comunidad-borde" id="comunidad" tabindex="-1">
     <div class="comunidad">
       <span class="kicker">La comunidad</span>
       <h2>¿Te sirvió? Esto es la punta del ovillo.</h2>
@@ -505,9 +499,25 @@
     a.addEventListener('click', function(e){
       // si abre en pestaña nueva o con teclas, no nos metemos
       if(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      var destino = a.getAttribute('href');
+
+      // los enlaces internos bajan en la misma página, no navegan
+      if(destino.charAt(0) === '#'){
+        e.preventDefault();
+        plin();
+        var caja = document.querySelector(destino);
+        if(!caja) return;
+        var quieto = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        caja.scrollIntoView({ behavior: quieto ? 'auto' : 'smooth', block: 'center' });
+        caja.classList.remove('destacar');
+        void caja.offsetWidth;
+        caja.classList.add('destacar');
+        setTimeout(function(){ caja.classList.remove('destacar'); }, 1700);
+        return;
+      }
+
       e.preventDefault();
       plin();
-      var destino = a.getAttribute('href');
       setTimeout(function(){ window.location.href = destino; }, 130);
     });
   });
