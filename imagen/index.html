@@ -1,0 +1,495 @@
+<title>Imagen para tu Anuncio</title>
+<meta name="description" content="El prompt de la imagen de tu anuncio — tengas o no tengas una foto de lo que vendés.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B0B0F'/%3E%3Crect x='6' y='19' width='5' height='8' rx='2' fill='%231668FF'/%3E%3Crect x='13.5' y='13' width='5' height='14' rx='2' fill='%237B2FF7'/%3E%3Crect x='21' y='6' width='5' height='21' rx='2' fill='%23E5127D'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://evelinguerraa.github.io/ayuda/imagen/">
+<meta property="og:title" content="Imagen para tu Anuncio">
+<meta property="og:description" content="El prompt de la imagen de tu anuncio — tengas o no tengas una foto de lo que vendés.">
+<meta property="og:image" content="https://evelinguerraa.github.io/ayuda/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="es_AR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08080C; --surface:#13131C; --surface-2:#1A1A26;
+    --ink:#F5F4FA; --ink-soft:#9C9AB2; --faint:#6B6982; --line:#262633;
+    --azul:#1668FF; --azul-claro:#5B9BFF;
+    --violeta:#7B2FF7; --violeta-claro:#B98BFF;
+    --magenta:#E5127D; --magenta-claro:#FF6FB4; --naranja:#FF7A18;
+    --degradado:linear-gradient(90deg,#1668FF 0%,#7B2FF7 48%,#E5127D 100%);
+    --focus:#B98BFF;
+    --card-shadow: 0 1px 2px rgba(0,0,0,.35), 0 10px 30px -16px rgba(123,47,247,.5);
+  }
+  *{ box-sizing:border-box; }
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:"Work Sans","Segoe UI",sans-serif;
+    margin:0; min-height:100vh; position:relative; overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition-duration:.01ms !important; } }
+
+  .orbe{ position:fixed; border-radius:50%; filter:blur(95px); pointer-events:none; z-index:0; }
+  .orbe.a{ width:420px; height:420px; top:-190px; left:-150px;
+           background:radial-gradient(circle,rgba(22,104,255,.34),transparent 70%); }
+  .orbe.b{ width:460px; height:460px; bottom:-240px; right:-170px;
+           background:radial-gradient(circle,rgba(229,18,125,.26),transparent 70%); }
+
+  .wrap{ max-width:1000px; margin:0 auto; padding:28px 20px 64px; position:relative; z-index:1; }
+
+  a.volver{
+    display:inline-flex; align-items:center; gap:7px;
+    font-size:13.5px; font-weight:600; color:var(--violeta-claro);
+    text-decoration:none; margin-bottom:16px;
+  }
+  a.volver:hover{ text-decoration:underline; }
+  a.volver:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+
+  header.top{ padding-bottom:18px; margin-bottom:24px; border-bottom:1px solid var(--line); }
+  .brand{
+    font-family:"Sora",sans-serif; font-weight:800; font-size:11.5px; letter-spacing:.3em;
+    background:var(--degradado); -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  h1{
+    font-family:"Sora",sans-serif; font-weight:800; font-size:clamp(28px,4.4vw,38px);
+    letter-spacing:-.022em; margin:8px 0 8px; line-height:1.1; text-wrap:balance;
+    background:linear-gradient(105deg,#FFFFFF 0%,#C9B8FF 45%,#FF6FB4 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .lede{ color:var(--ink-soft); font-size:15.5px; line-height:1.6; max-width:64ch; margin:0; }
+  .lede b{ color:var(--ink); font-weight:600; }
+
+  .grid{ display:grid; grid-template-columns:1fr; gap:26px; }
+  @media (min-width:860px){ .grid{ grid-template-columns: 390px 1fr; align-items:start; } }
+
+  .panel{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:22px 22px 24px; box-shadow:var(--card-shadow);
+  }
+  .panel > h2{
+    font-family:"Sora",sans-serif; font-size:13px; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--violeta-claro); margin:0 0 16px;
+  }
+
+  form{ display:flex; flex-direction:column; gap:15px; }
+  .field{ display:flex; flex-direction:column; gap:6px; }
+  [hidden]{ display:none !important; }
+  label{ font-size:13px; font-weight:600; color:var(--ink); }
+  .hint{ font-size:12px; color:var(--ink-soft); font-weight:400; }
+
+  input[type="text"], select, textarea{
+    font-family:"Work Sans",sans-serif; font-size:14.5px; color:var(--ink);
+    background:var(--surface-2); border:1px solid var(--line);
+    border-radius:9px; padding:10px 12px; width:100%;
+  }
+  textarea{ resize:vertical; min-height:56px; line-height:1.5; }
+  input::placeholder, textarea::placeholder{ color:var(--faint); }
+  input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible{
+    outline:2px solid var(--focus); outline-offset:2px;
+  }
+  select{
+    appearance:none; -webkit-appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' stroke='%239C9AB2' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat; background-position:right 12px center; padding-right:32px;
+  }
+
+  /* elegir camino */
+  .camino{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+  .camino button{
+    font-family:"Work Sans",sans-serif; font-size:13.5px; font-weight:600;
+    color:var(--ink-soft); background:var(--surface-2);
+    border:1px solid var(--line); border-radius:10px;
+    padding:12px 10px; cursor:pointer; text-align:center; line-height:1.35;
+  }
+  .camino button.on{
+    color:var(--ink); border-color:var(--violeta);
+    background:rgba(123,47,247,.16);
+    box-shadow:0 0 22px -8px var(--violeta);
+  }
+
+  .go{
+    margin-top:4px; font-family:"Sora",sans-serif; font-weight:700; font-size:14.5px;
+    color:#fff; background:var(--degradado); border:none; border-radius:9px;
+    padding:12px 18px; cursor:pointer;
+  }
+  .go:hover{ filter:brightness(1.08); }
+
+  .empty{
+    color:var(--ink-soft); font-size:14px; line-height:1.6;
+    border:1px dashed var(--line); border-radius:10px; padding:18px;
+  }
+
+  .campo{
+    background:var(--surface-2); border:1px solid var(--line);
+    border-radius:11px; padding:14px 15px 13px; margin-bottom:12px;
+  }
+  .campo .rot{
+    font-family:"Sora",sans-serif; font-size:11px; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--azul-claro); display:block; margin-bottom:3px;
+  }
+  .campo .para{ font-size:12.5px; color:var(--ink-soft); margin:0 0 9px; }
+  .campo pre{
+    margin:0 0 12px; font-family:"Work Sans",sans-serif; font-size:13.5px; line-height:1.6;
+    color:var(--ink); white-space:pre-wrap; word-wrap:break-word;
+  }
+
+  .copy{
+    font-family:"Work Sans",sans-serif; font-weight:600; font-size:12.5px;
+    color:var(--violeta-claro); background:transparent;
+    border:1px solid rgba(185,139,255,.5); border-radius:7px;
+    padding:6px 11px; cursor:pointer;
+  }
+  .copy:hover{ background:rgba(123,47,247,.18); border-color:var(--violeta-claro); }
+  .copy.copied{ color:#fff; background:var(--violeta); border-color:var(--violeta); }
+
+  .aviso{
+    background:rgba(255,122,24,.10); border:1px solid rgba(255,122,24,.45);
+    border-left-width:4px; color:#FFC08A; border-radius:9px;
+    padding:13px 15px; margin-top:4px; font-size:13.5px; line-height:1.6;
+  }
+  .aviso b{ font-weight:700; }
+
+  .siguiente{
+    margin-top:22px; background:var(--surface); border:1px solid var(--line);
+    border-radius:13px; padding:17px 19px;
+  }
+  .siguiente h3{
+    font-family:"Sora",sans-serif; font-size:15px; font-weight:700; margin:0 0 5px; color:var(--ink);
+  }
+  .siguiente p{ margin:0 0 10px; font-size:13.5px; line-height:1.55; color:var(--ink-soft); }
+  .siguiente a{
+    font-family:"Sora",sans-serif; font-size:13.5px; font-weight:700;
+    color:var(--magenta-claro); text-decoration:none;
+  }
+  .siguiente a:hover{ text-decoration:underline; }
+
+  .tips{ margin-top:30px; }
+  .tips h2{
+    font-family:"Sora",sans-serif; font-size:13px; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--violeta-claro); margin:0 0 14px;
+  }
+  .tips ul{ margin:0; padding-left:20px; display:flex; flex-direction:column; gap:8px; }
+  .tips li{ font-size:14px; line-height:1.6; color:var(--ink-soft); }
+  .tips li b{ color:var(--ink); font-weight:600; }
+
+  .comunidad-borde{
+    background:var(--degradado); padding:1.6px; border-radius:16px;
+    margin-top:34px; box-shadow:0 14px 40px -22px rgba(229,18,125,.8);
+  }
+  .comunidad{ background:linear-gradient(150deg,#16131F,#0D0D14); border-radius:14.6px; padding:24px 22px 22px; }
+  .comunidad .kicker{
+    font-family:"Sora",sans-serif; font-size:10.5px; font-weight:700;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--magenta-claro);
+    display:block; margin-bottom:8px;
+  }
+  .comunidad h2{
+    font-family:"Sora",sans-serif; font-size:21px; font-weight:800;
+    margin:0 0 9px; line-height:1.22; letter-spacing:-.015em; color:var(--ink);
+  }
+  .comunidad p{ margin:0 0 8px; font-size:14px; line-height:1.6; color:var(--ink-soft); }
+  .comunidad p b{ color:var(--ink); font-weight:600; }
+  a.btn-comunidad{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--degradado); color:#fff; text-decoration:none;
+    font-family:"Sora",sans-serif; font-weight:700; font-size:14.5px;
+    padding:11px 20px; border-radius:10px; margin-top:12px;
+    box-shadow:0 8px 24px -10px rgba(123,47,247,.95);
+  }
+  a.btn-comunidad:hover{ filter:brightness(1.07); }
+
+  .foot{
+    margin-top:34px; padding-top:16px; border-top:1px solid var(--line);
+    font-size:13px; color:var(--faint); line-height:1.6;
+  }
+  .foot a{ color:var(--violeta-claro); text-decoration:none; }
+</style>
+
+<div class="orbe a"></div>
+<div class="orbe b"></div>
+
+<div class="wrap">
+  <a class="volver" href="/ayuda/">← Todas las herramientas</a>
+
+  <header class="top">
+    <div class="brand">M3P ADS</div>
+    <h1>Imagen para tu Anuncio</h1>
+    <p class="lede">La imagen de un anuncio no es la misma que la de un posteo: tiene que frenar el scroll. Acá armás el prompt — <b>tengas o no tengas una foto</b> de lo que vendés.</p>
+  </header>
+
+  <div class="grid">
+    <section class="panel">
+      <h2>Tu imagen</h2>
+      <form id="form">
+
+        <div class="field">
+          <label>¿Tenés una foto de lo que vendés?</label>
+          <div class="camino">
+            <button type="button" id="btn-si" class="on">Sí, tengo foto</button>
+            <button type="button" id="btn-no">No tengo todavía</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="producto">¿Qué vendés?</label>
+          <input type="text" id="producto" placeholder="Ej: asadores de hierro a medida" required>
+        </div>
+
+        <div class="field" id="wrap-quien">
+          <label for="cliente">¿A quién le vendés? <span class="hint">(opcional)</span></label>
+          <input type="text" id="cliente" placeholder="Ej: familias que tienen patio">
+        </div>
+
+        <div class="field" id="wrap-sinfoto" hidden>
+          <label for="enfoque">Sin foto, ¿qué mostramos?</label>
+          <select id="enfoque">
+            <option value="escena">La escena donde se usa, sin el producto de protagonista</option>
+            <option value="resultado">El resultado: gente disfrutando lo que lograron</option>
+            <option value="problema">El problema que resolvés, para que se sientan identificados</option>
+            <option value="grafico">Un fondo gráfico, para que mande el texto del anuncio</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="luz">¿Con qué luz?</label>
+          <select id="luz">
+            <option value="dia">Luz de día, natural y clara</option>
+            <option value="atardecer">Luz cálida de atardecer</option>
+            <option value="noche">De noche, con luces cálidas</option>
+            <option value="estudio">Luz de estudio, limpia y pareja</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="estilo">Estilo</label>
+          <select id="estilo">
+            <option value="rustico">Rústico y cálido</option>
+            <option value="moderno">Limpio y moderno</option>
+            <option value="vibrante">Vibrante y alegre</option>
+            <option value="premium">Premium y elegante</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="detalle">Algo más que quieras pedirle <span class="hint">(opcional)</span></label>
+          <textarea id="detalle" placeholder="Ej: que haya plantas alrededor"></textarea>
+        </div>
+
+        <button type="submit" class="go">Generar prompt</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Tu prompt</h2>
+      <div id="empty" class="empty">Elegí si tenés foto o no, completá los datos y tocá "Generar prompt".</div>
+      <div id="salida" hidden></div>
+    </section>
+  </div>
+
+  <section class="tips">
+    <h2>Para que salga bien</h2>
+    <ul>
+      <li><b>Nunca dejes que la IA invente tu producto.</b> Si te dibuja un asador que no es el tuyo y alguien te compra por esa foto, el problema lo tenés después vos. Por eso, cuando no hay foto, acá le pedimos la escena o el ambiente — nunca el producto.</li>
+      <li><b>Sin texto adentro de la imagen.</b> El texto va en los campos del anuncio, que es donde Meta lo lee y donde lo cambiás sin rehacer nada.</li>
+      <li><b>Pensala chiquita.</b> Se va a ver en un celular, entre medio de otras cien cosas. Si no se entiende en un segundo, no sirve.</li>
+      <li><b>La foto real gana siempre.</b> Aunque la saques con el celular. La imagen generada es para salir del paso hasta que tengas la tuya.</li>
+    </ul>
+  </section>
+
+  <div class="comunidad-borde">
+    <div class="comunidad">
+      <span class="kicker">La comunidad</span>
+      <h2>¿Te sirvió? Esto es la punta del ovillo.</h2>
+      <p>Una buena imagen con la cuenta mal armada abajo es plata tirada. Por eso el orden importa: primero la <b>Plataforma</b>, después la <b>Presencia</b>, y recién ahí la <b>Publicidad</b>.</p>
+      <p>Eso lo trabajamos adentro de mi comunidad. Entrá, mirá, y preguntame lo que quieras.</p>
+      <a class="btn-comunidad" href="https://www.skool.com/metodo-3p-de-evelina-guerra-6868/about">Entrar a la comunidad →</a>
+    </div>
+  </div>
+
+  <div class="foot">
+    Hecho para el Desafío 3P · <a href="/ayuda/">M3P Ads</a>
+  </div>
+</div>
+
+<script>
+  var ctxAudio;
+  function plin(){
+    try{
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return;
+      ctxAudio = ctxAudio || new AC();
+      if(ctxAudio.state === 'suspended'){ ctxAudio.resume(); }
+      var t = ctxAudio.currentTime;
+      [[880,0],[1318.5,0.055]].forEach(function(par){
+        var osc = ctxAudio.createOscillator(), vol = ctxAudio.createGain();
+        osc.type='sine'; osc.frequency.value=par[0];
+        vol.gain.setValueAtTime(0.0001, t+par[1]);
+        vol.gain.exponentialRampToValueAtTime(0.11, t+par[1]+0.012);
+        vol.gain.exponentialRampToValueAtTime(0.0001, t+par[1]+0.30);
+        osc.connect(vol); vol.connect(ctxAudio.destination);
+        osc.start(t+par[1]); osc.stop(t+par[1]+0.34);
+      });
+    }catch(e){}
+  }
+
+  var tengoFoto = true;
+  var btnSi = document.getElementById('btn-si'), btnNo = document.getElementById('btn-no');
+  function elegir(v){
+    tengoFoto = v;
+    btnSi.classList.toggle('on', v);
+    btnNo.classList.toggle('on', !v);
+    document.getElementById('wrap-sinfoto').hidden = v;
+  }
+  btnSi.addEventListener('click', function(){ elegir(true); });
+  btnNo.addEventListener('click', function(){ elegir(false); });
+
+  var luces = {
+    dia:      'luz de día natural y clara, sin sombras duras',
+    atardecer:'luz cálida de atardecer entrando de costado, sombras largas y suaves, tonos dorados',
+    noche:    'luz cálida de noche, con puntos de luz suaves y desenfocados al fondo',
+    estudio:  'iluminación de estudio limpia y pareja'
+  };
+  var estilos = {
+    rustico: 'estética rústica y cálida, materiales naturales, paleta de tonos tierra',
+    moderno: 'estética limpia y moderna, composición minimalista, paleta neutra',
+    vibrante:'estética vibrante y alegre, colores saturados con buen contraste',
+    premium: 'estética premium y sobria, paleta contenida, sensación de algo caro y bien hecho'
+  };
+
+  var REGLAS_ANUNCIO =
+    'Esta imagen es para un ANUNCIO pagado en redes, así que tiene que frenar el scroll:\n' +
+    '- Composición simple y con buen contraste, que se entienda de un vistazo en una pantalla chica.\n' +
+    '- Nada de texto, carteles, precios ni logos dentro de la imagen.\n' +
+    '- Formato cuadrado 1:1. Fotografía realista de calidad profesional, sin marcas de agua.';
+
+  function conFoto(d){
+    return 'Usá la imagen que subí como referencia exacta de lo que vendo: ' + d.producto + '. ' +
+      'Es fundamental que NO modifiques el producto: mantené idéntica su forma, sus proporciones, su color, ' +
+      'su textura y cualquier logo o marca que tenga. Cambiá solamente el entorno y la luz.\n\n' +
+      'Poné el producto grande y centrado, como protagonista absoluto de la imagen, sobre un entorno simple ' +
+      'que no compita con él.\n\n' +
+      'Iluminación: ' + luces[d.luz] + '.\n' +
+      'Estilo: ' + estilos[d.estilo] + '.\n\n' +
+      REGLAS_ANUNCIO + (d.detalle ? '\n\nAdemás: ' + d.detalle + '.' : '');
+  }
+
+  function sinFoto(d){
+    var quien = d.cliente ? ' para ' + d.cliente : '';
+    var noInventar =
+      'MUY IMPORTANTE: no inventes ni dibujes el producto que vendo. No quiero que aparezca ningún ' +
+      'producto generado por vos, porque no sería el mío de verdad y estaría engañando a la gente. ' +
+      'Mostrá el ambiente, la situación y la emoción alrededor — nunca el producto en primer plano.';
+
+    var loQueVendo = 'lo que vendo (' + d.producto + ')' + quien;
+
+    var enfoques = {
+      escena:
+        'Quiero una fotografía del lugar y el momento donde se usa ' + loQueVendo + '. ' +
+        'El ambiente preparado y con vida, como si alguien estuviera por llegar. ' +
+        'El producto puede insinuarse fuera de foco o directamente no aparecer.\n\n' + noInventar,
+      resultado:
+        'Quiero una fotografía del momento de disfrute: personas reales viviendo el resultado de tener ' +
+        loQueVendo + '. Caras naturales, gestos espontáneos, nada de pose de catálogo. ' +
+        'El foco está en la gente y en el clima del momento.\n\n' + noInventar,
+      problema:
+        'Quiero una fotografía que muestre el problema que mi cliente tiene hoy, antes de resolverlo. ' +
+        'Una escena cotidiana, creíble, con la que se sienta identificado apenas la vea. ' +
+        'Sin dramatismo exagerado ni cara de sufrimiento actuada.\n\n' + noInventar,
+      grafico:
+        'Quiero un fondo gráfico abstracto para un anuncio, sin ningún producto ni persona. ' +
+        'Formas simples, textura sutil, mucho aire en el centro para que después le pueda poner el texto encima. ' +
+        'Que se vea profesional y moderno, no un fondo de plantilla.'
+    };
+
+    return enfoques[d.enfoque] + '\n\n' +
+      'Iluminación: ' + luces[d.luz] + '.\n' +
+      'Estilo: ' + estilos[d.estilo] + '.\n\n' +
+      REGLAS_ANUNCIO + (d.detalle ? '\n\nAdemás: ' + d.detalle + '.' : '');
+  }
+
+  function tarjeta(rotulo, sub, texto){
+    var div = document.createElement('div');
+    div.className = 'campo';
+    var rot = document.createElement('span'); rot.className='rot'; rot.textContent = rotulo;
+    var p = document.createElement('p'); p.className='para'; p.textContent = sub;
+    var pre = document.createElement('pre'); pre.textContent = texto;
+    var btn = document.createElement('button');
+    btn.className='copy'; btn.type='button'; btn.textContent='Copiar';
+    btn.addEventListener('click', function(){
+      var listo = function(){
+        plin(); btn.textContent='¡Copiado!'; btn.classList.add('copied');
+        setTimeout(function(){ btn.textContent='Copiar'; btn.classList.remove('copied'); }, 1600);
+      };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(texto).then(listo).catch(function(){ respaldo(texto, listo); });
+      } else { respaldo(texto, listo); }
+    });
+    div.appendChild(rot); div.appendChild(p); div.appendChild(pre); div.appendChild(btn);
+    return div;
+  }
+
+  document.getElementById('form').addEventListener('submit', function(e){
+    e.preventDefault();
+    var d = {
+      producto: document.getElementById('producto').value.trim(),
+      cliente: document.getElementById('cliente').value.trim(),
+      enfoque: document.getElementById('enfoque').value,
+      luz: document.getElementById('luz').value,
+      estilo: document.getElementById('estilo').value,
+      detalle: document.getElementById('detalle').value.trim()
+    };
+    if(!d.producto){ document.getElementById('producto').focus(); return; }
+
+    var out = document.getElementById('salida');
+    out.innerHTML = '';
+
+    if(tengoFoto){
+      out.appendChild(tarjeta(
+        'Con tu foto',
+        'Subí primero la foto de tu producto a ChatGPT o Gemini, y después pegá esto.',
+        conFoto(d)));
+      var a1 = document.createElement('div');
+      a1.className = 'aviso';
+      a1.innerHTML = '<b>Si te cambia el producto,</b> respondele en el mismo chat: "Me lo cambiaste. Usá exactamente lo que aparece en la foto que subí, sin modificar su forma ni su color. Cambiá solo el fondo y la luz."';
+      out.appendChild(a1);
+    } else {
+      out.appendChild(tarjeta(
+        'Sin foto',
+        'Pegá esto directamente en ChatGPT o Gemini. No hace falta subir nada.',
+        sinFoto(d)));
+      var a2 = document.createElement('div');
+      a2.className = 'aviso';
+      a2.innerHTML = '<b>Esto es para salir del paso.</b> El prompt le prohíbe expresamente inventar tu producto, porque una foto de algo que no vendés te trae problemas después. En cuanto puedas, sacale una foto real aunque sea con el celular — siempre gana.';
+      out.appendChild(a2);
+    }
+
+    var sig = document.createElement('div');
+    sig.className = 'siguiente';
+    sig.innerHTML = '<h3>¿Ya tenés el texto del anuncio?</h3>' +
+      '<p>La imagen sola no alcanza. El texto va en los campos que pide Meta, y eso te lo arma la otra herramienta.</p>' +
+      '<a href="/ayuda/anuncios">Ir al Generador de Anuncios →</a>';
+    out.appendChild(sig);
+
+    document.getElementById('empty').hidden = true;
+    out.hidden = false;
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll('a.btn-comunidad'), function(a){
+    a.addEventListener('click', function(e){
+      if(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault(); plin();
+      var destino = a.getAttribute('href');
+      setTimeout(function(){ window.location.href = destino; }, 130);
+    });
+  });
+
+  function respaldo(texto, listo){
+    var ta = document.createElement('textarea');
+    ta.value = texto; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta); listo();
+  }
+</script>
