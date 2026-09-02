@@ -73,6 +73,17 @@
   .lede{ color:var(--ink-soft); font-size:15.5px; line-height:1.6; max-width:64ch; margin:0; }
   .lede b{ color:var(--ink); font-weight:600; }
 
+  .par{
+    display:inline-flex; align-items:center; gap:8px; margin-top:14px;
+    background:var(--surface-2); border:1px solid var(--line);
+    border-radius:100px; padding:8px 16px 8px 13px;
+    font-size:13.5px; color:var(--ink-soft); text-decoration:none;
+    transition:border-color .18s ease;
+  }
+  .par:hover{ border-color:var(--magenta); }
+  .par:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+  .par b{ color:var(--magenta-claro); font-weight:700; }
+
   .grid{ display:grid; grid-template-columns:1fr; gap:26px; }
   @media (min-width:860px){ .grid{ grid-template-columns: 390px 1fr; align-items:start; } }
 
@@ -217,7 +228,8 @@
   <header class="top">
     <div class="brand">M3P ADS</div>
     <h1>Generador de Anuncios</h1>
-    <p class="lede">Esta es la de <b>Publicidad</b>. Completá los datos de tu oferta y te devuelve <b>el texto del anuncio</b>, escrito en los campos exactos que te pide Meta, más un prompt por si querés que la IA te tire variantes. <b>Listo para copiar y pegar.</b> La imagen se arma aparte, en su propia herramienta.</p>
+    <p class="lede">Esta es la de <b>Publicidad</b>. Completá los datos de tu oferta y te devuelve <b>el texto del anuncio</b>, escrito en los campos exactos que te pide Meta, más un prompt por si querés que la IA te tire variantes. <b>Listo para copiar y pegar.</b></p>
+    <a class="par" href="/ayuda/imagen">🖼️ ¿Venías por la imagen? <b>Está acá →</b></a>
   </header>
 
   <div class="grid">

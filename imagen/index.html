@@ -62,6 +62,17 @@
   .lede{ color:var(--ink-soft); font-size:15.5px; line-height:1.6; max-width:64ch; margin:0; }
   .lede b{ color:var(--ink); font-weight:600; }
 
+  .par{
+    display:inline-flex; align-items:center; gap:8px; margin-top:14px;
+    background:var(--surface-2); border:1px solid var(--line);
+    border-radius:100px; padding:8px 16px 8px 13px;
+    font-size:13.5px; color:var(--ink-soft); text-decoration:none;
+    transition:border-color .18s ease;
+  }
+  .par:hover{ border-color:var(--magenta); }
+  .par:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+  .par b{ color:var(--magenta-claro); font-weight:700; }
+
   .grid{ display:grid; grid-template-columns:1fr; gap:26px; }
   @media (min-width:860px){ .grid{ grid-template-columns: 390px 1fr; align-items:start; } }
 
@@ -204,6 +215,7 @@
     <div class="brand">M3P ADS</div>
     <h1>Imagen para tu Anuncio</h1>
     <p class="lede">Contestá seis cosas de tu negocio, en criollo. Nosotros armamos el pedido completo — qué va arriba, qué va al medio, qué va abajo, los colores, el botón — para que la inteligencia artificial te devuelva <b>el anuncio entero, diseñado y listo para publicar</b>.</p>
+    <a class="par" href="/ayuda/anuncios">✍️ ¿Venías por el texto? <b>Está acá →</b></a>
   </header>
 
   <div class="grid">
