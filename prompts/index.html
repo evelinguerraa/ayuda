@@ -1,0 +1,458 @@
+<title>Generador de Prompts</title>
+<meta name="description" content="Subí la foto de tu producto y armá el prompt exacto para que ChatGPT o Gemini te la conviertan en una foto profesional, sin cambiarte el producto.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FAF9FC;
+    --surface:#FFFFFF;
+    --surface-2:#F4F2F9;
+    --ink:#16161D;
+    --ink-soft:#5A5A66;
+    --line:#E6E4EE;
+    --azul:#1668FF;
+    --violeta:#7B2FF7;
+    --magenta:#E5127D;
+    --degradado:linear-gradient(90deg,#1668FF 0%,#7B2FF7 48%,#E5127D 100%);
+    --focus:#7B2FF7;
+    --aviso-bg:#FFF4E5;
+    --aviso-line:#F0B266;
+    --aviso-ink:#7A4A08;
+    --card-shadow: 0 1px 2px rgba(22,22,29,.04), 0 8px 24px -12px rgba(123,47,247,.18);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#121016;
+      --surface:#1B1922;
+      --surface-2:#232030;
+      --ink:#F3F1F8;
+      --ink-soft:#A7A3B8;
+      --line:#332F42;
+      --aviso-bg:#2A2113;
+      --aviso-line:#8A6224;
+      --aviso-ink:#F0C88A;
+      --card-shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 28px -12px rgba(123,47,247,.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#121016;
+    --surface:#1B1922;
+    --surface-2:#232030;
+    --ink:#F3F1F8;
+    --ink-soft:#A7A3B8;
+    --line:#332F42;
+    --aviso-bg:#2A2113;
+    --aviso-line:#8A6224;
+    --aviso-ink:#F0C88A;
+    --card-shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 28px -12px rgba(123,47,247,.35);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Work Sans","Segoe UI",sans-serif;
+    margin:0;
+    min-height:100vh;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.01ms !important; transition-duration:.01ms !important; }
+  }
+
+  .wrap{ max-width:940px; margin:0 auto; padding:28px 20px 64px; }
+
+  header.top{ padding-bottom:18px; margin-bottom:24px; border-bottom:1px solid var(--line); }
+  .brand{
+    font-family:"Sora",sans-serif; font-weight:800; font-size:12.5px; letter-spacing:.28em;
+    background:var(--degradado); -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  h1{
+    font-family:"Sora",sans-serif; font-weight:700; font-size:clamp(26px,4vw,36px);
+    letter-spacing:-.01em; margin:8px 0 6px; text-wrap:balance;
+  }
+  .lede{ color:var(--ink-soft); font-size:15.5px; line-height:1.6; max-width:62ch; margin:0; }
+  .lede strong{ color:var(--ink); font-weight:600; }
+
+  .pasos{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:18px 20px; margin-bottom:26px; box-shadow:var(--card-shadow);
+    display:grid; gap:14px;
+  }
+  @media (min-width:700px){ .pasos{ grid-template-columns:repeat(3,1fr); } }
+  .paso{ display:flex; gap:11px; align-items:flex-start; }
+  .paso .n{
+    flex:none; width:24px; height:24px; border-radius:50%;
+    background:var(--degradado); color:#fff;
+    font-family:"Sora",sans-serif; font-weight:700; font-size:12px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .paso p{ margin:0; font-size:13.5px; line-height:1.5; color:var(--ink-soft); }
+  .paso p b{ color:var(--ink); font-weight:600; display:block; }
+
+  .grid{ display:grid; grid-template-columns:1fr; gap:26px; }
+  @media (min-width:820px){ .grid{ grid-template-columns: 380px 1fr; align-items:start; } }
+
+  .panel{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:22px 22px 24px; box-shadow:var(--card-shadow);
+  }
+  .panel h2{
+    font-family:"Sora",sans-serif; font-size:13px; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--violeta); margin:0 0 16px;
+  }
+
+  form{ display:flex; flex-direction:column; gap:15px; }
+  .field{ display:flex; flex-direction:column; gap:6px; }
+  label{ font-size:13px; font-weight:600; color:var(--ink); }
+  .hint{ font-size:12px; color:var(--ink-soft); font-weight:400; }
+
+  input[type="text"], select, textarea{
+    font-family:"Work Sans",sans-serif; font-size:14.5px; color:var(--ink);
+    background:var(--surface-2); border:1px solid var(--line);
+    border-radius:9px; padding:10px 12px; width:100%;
+  }
+  textarea{ resize:vertical; min-height:60px; line-height:1.5; }
+  input::placeholder, textarea::placeholder{ color:var(--ink-soft); opacity:.85; }
+  input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible{
+    outline:2px solid var(--focus); outline-offset:2px;
+  }
+  select{
+    appearance:none; -webkit-appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' stroke='%235A5A66' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat; background-position:right 12px center; padding-right:32px;
+  }
+
+  .go{
+    margin-top:4px; font-family:"Sora",sans-serif; font-weight:700; font-size:14.5px;
+    color:#fff; background:var(--degradado); border:none; border-radius:9px;
+    padding:12px 18px; cursor:pointer;
+  }
+  .go:hover{ filter:brightness(1.06); }
+  .go:active{ filter:brightness(.96); }
+
+  .results h2{
+    font-family:"Sora",sans-serif; font-size:13px; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--violeta); margin:0 0 16px;
+  }
+  .empty{
+    color:var(--ink-soft); font-size:14px; line-height:1.6;
+    border:1px dashed var(--line); border-radius:10px; padding:18px;
+  }
+
+  .cards{ display:flex; flex-direction:column; gap:12px; }
+  .card{ background:var(--surface-2); border:1px solid var(--line); border-radius:11px; padding:14px 15px 13px; }
+  .card .tag{
+    font-family:"Sora",sans-serif; font-size:11px; font-weight:700; letter-spacing:.05em;
+    text-transform:uppercase; color:var(--azul); display:block; margin-bottom:3px;
+  }
+  .card .para{ font-size:12px; color:var(--ink-soft); margin:0 0 9px; }
+  .card pre{
+    margin:0 0 12px; font-family:"Work Sans",sans-serif; font-size:13.5px; line-height:1.6;
+    color:var(--ink); white-space:pre-wrap; word-wrap:break-word;
+  }
+  .copy{
+    font-family:"Work Sans",sans-serif; font-weight:600; font-size:12.5px; color:var(--violeta);
+    background:transparent; border:1px solid var(--violeta); border-radius:7px;
+    padding:6px 11px; cursor:pointer;
+  }
+  .copy:hover{ background:rgba(123,47,247,.08); }
+  .copy.copied{ color:#fff; background:var(--violeta); border-color:var(--violeta); }
+
+  .aviso{
+    background:var(--aviso-bg); border:1px solid var(--aviso-line); border-left-width:4px;
+    color:var(--aviso-ink); border-radius:9px; padding:13px 15px; margin-top:14px;
+    font-size:13.5px; line-height:1.6;
+  }
+  .aviso b{ font-weight:700; }
+
+  .tips{ margin-top:30px; }
+  .tips h2{
+    font-family:"Sora",sans-serif; font-size:13px; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--violeta); margin:0 0 14px;
+  }
+  .tips ul{ margin:0; padding-left:20px; display:flex; flex-direction:column; gap:8px; }
+  .tips li{ font-size:14px; line-height:1.6; color:var(--ink-soft); }
+  .tips li b{ color:var(--ink); font-weight:600; }
+
+  .foot{
+    margin-top:34px; padding-top:16px; border-top:1px solid var(--line);
+    font-size:13px; color:var(--ink-soft); line-height:1.6;
+  }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">M3P ADS</div>
+    <h1>Generador de Prompts para Imágenes</h1>
+    <p class="lede">Regalo de la <strong>Clase 3</strong> del Desafío 3P. Acá no inventamos un producto de la nada — vos subís la foto de <strong>tu producto real</strong>, y el prompt le ordena a la inteligencia artificial que no te lo toque: que solo le mejore el fondo y la luz.</p>
+  </header>
+
+  <div class="pasos">
+    <div class="paso">
+      <div class="n">1</div>
+      <p><b>Sacale una foto a tu producto o a un trabajo tuyo</b>Con luz de día, de frente, enfocada. Mirá los consejos de abajo.</p>
+    </div>
+    <div class="paso">
+      <div class="n">2</div>
+      <p><b>Subila a ChatGPT o Gemini</b>La versión gratuita alcanza. Primero la foto, después el texto.</p>
+    </div>
+    <div class="paso">
+      <div class="n">3</div>
+      <p><b>Pegá el prompt de acá</b>Completá el formulario, copiá el que más te guste y pegalo abajo de la foto.</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <section class="panel">
+      <h2>Tu producto</h2>
+      <form id="form">
+        <div class="field">
+          <label for="tipo">¿Qué foto vas a subir?</label>
+          <select id="tipo">
+            <option value="producto">La foto de un producto</option>
+            <option value="servicio">La foto de un trabajo que hice</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="producto">¿Qué es exactamente lo que vendés?</label>
+          <span class="hint">Cuanto más específica seas, mejor sale. Ej: camperas de jean para mujer · asadores de hierro · tortas decoradas · cortes de pelo.</span>
+          <input type="text" id="producto" placeholder="Escribí acá qué vendés" required>
+        </div>
+
+        <div class="field">
+          <label for="escena">¿Dónde lo mostramos?</label>
+          <select id="escena">
+            <option value="auto">Que lo decida la IA según mi producto</option>
+            <option value="persona">Usado o puesto por una persona</option>
+            <option value="cliente">En la casa del cliente, disfrutándolo</option>
+            <option value="local">En mi local o espacio de trabajo</option>
+            <option value="estudio">Fondo liso, tipo catálogo</option>
+            <option value="otro">Otro — lo escribo yo</option>
+          </select>
+        </div>
+
+        <div class="field" id="escena-otro-wrap" hidden>
+          <label for="escena-otro">Contame dónde</label>
+          <input type="text" id="escena-otro" placeholder="Ej: arriba de la barra de un bar">
+        </div>
+
+        <div class="field">
+          <label for="luz">¿Con qué luz lo querés ver?</label>
+          <select id="luz">
+            <option value="atardecer">Luz cálida de atardecer</option>
+            <option value="dia">Luz de día, natural y suave</option>
+            <option value="noche">De noche, con luces cálidas</option>
+            <option value="estudio">Luz de estudio, limpia y pareja</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="estilo">Estilo</label>
+          <select id="estilo">
+            <option value="rustico">Rústico y cálido</option>
+            <option value="moderno">Limpio y moderno</option>
+            <option value="vibrante">Vibrante y alegre</option>
+            <option value="premium">Premium y elegante</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="detalle">Algo más que quieras pedirle <span class="hint">(opcional)</span></label>
+          <textarea id="detalle" placeholder="Ej: que haya plantas alrededor, que se vea una taza de café al lado"></textarea>
+        </div>
+
+        <button type="submit" class="go">Generar prompts</button>
+      </form>
+    </section>
+
+    <section class="panel results">
+      <h2>Tus prompts</h2>
+      <div id="empty" class="empty">Completá el formulario y tocá "Generar prompts" — acá van a aparecer tres versiones listas para copiar y pegar.</div>
+      <div id="cards" class="cards" hidden></div>
+
+      <div class="aviso">
+        <b>Si la IA te cambia lo que subiste,</b> no borres todo ni empieces de nuevo. Respondele en el mismo chat: <em>"Me lo cambiaste. Volvé a hacerla usando exactamente lo que aparece en la foto que subí, sin modificar su forma, su color ni sus detalles, y sin retocar a la persona si aparece. Cambiá solo el fondo y la luz."</em>
+      </div>
+    </section>
+  </div>
+
+  <section class="tips">
+    <h2>Para que salga bien</h2>
+    <ul>
+      <li><b>Luz de día, cerca de una ventana.</b> Nada de flash ni de luz de tubo — te apaga los colores del producto.</li>
+      <li><b>Fondo lo más liso posible.</b> Una pared, una mesa vacía. Cuanto menos ruido atrás, más fácil le resulta a la IA separar tu producto.</li>
+      <li><b>De frente y bien enfocada.</b> Si la foto sale movida o borrosa, la IA no tiene de dónde agarrarse — y ahí es cuando te inventa cosas.</li>
+      <li><b>El producto entero, sin cortar.</b> Que entre completo en la foto, con un poco de aire alrededor.</li>
+      <li><b>Probá los tres prompts.</b> No siempre gana el primero. A veces el de primer plano es el que te levanta la publicación.</li>
+    </ul>
+  </section>
+
+  <div class="foot">
+    Hecho para el Desafío 3P · M3P Ads
+  </div>
+</div>
+
+<script>
+  var escenas = {
+    auto:   "el ambiente donde esto se usa o se luce naturalmente — elegí vos cuál corresponde, y que se vea como un lugar real y habitado, no como un decorado armado",
+    persona:"una situación cotidiana donde una persona real lo está usando, llevando puesto o sosteniendo, sin que la cara sea el foco de la imagen",
+    cliente:"la casa o el espacio del cliente, en el momento en que lo está disfrutando, con el ambiente desenfocado detrás",
+    local:  "el interior de un local o espacio de trabajo cuidado y ordenado, con el fondo suavemente desenfocado",
+    estudio:"un fondo liso y prolijo de estudio fotográfico, con una superficie suave debajo y una sombra natural"
+  };
+
+  function escenaFinal(){
+    var sel = document.getElementById('escena').value;
+    if(sel === 'otro'){
+      var otro = document.getElementById('escena-otro').value.trim();
+      return otro ? otro : escenas.auto;
+    }
+    return escenas[sel];
+  }
+
+  document.getElementById('escena').addEventListener('change', function(){
+    document.getElementById('escena-otro-wrap').hidden = this.value !== 'otro';
+  });
+
+  var luces = {
+    atardecer:"luz cálida de atardecer entrando de costado, sombras largas y suaves, tonos dorados",
+    dia:      "luz de día natural y difusa, como de día apenas nublado, sin sombras duras",
+    noche:    "luz cálida de noche, con puntos de luz suaves y desenfocados al fondo",
+    estudio:  "iluminación de estudio limpia y pareja, con una sombra suave debajo del producto"
+  };
+
+  var estilos = {
+    rustico: "estética rústica y cálida, materiales naturales, paleta de tonos tierra",
+    moderno: "estética limpia y moderna, composición minimalista, paleta neutra",
+    vibrante:"estética vibrante y alegre, colores saturados con buen contraste",
+    premium: "estética premium y sobria, paleta contenida, con esa sensación de algo caro y bien hecho"
+  };
+
+  var REGLAS = {
+    producto: 'Usá la imagen que subí como referencia exacta del producto: PRODUCTO. Es fundamental que NO modifiques el producto: mantené idéntica su forma, sus proporciones, su color, su textura, sus terminaciones y cualquier logo o marca que tenga. No le agregues ni le saques partes, no lo reemplaces por otro parecido. Lo único que quiero que cambies es el entorno y la luz.',
+    servicio: 'Usá la imagen que subí como referencia exacta del trabajo que hice: PRODUCTO. Es fundamental que NO modifiques el resultado del trabajo ni a la persona que aparece en la foto: mantené idéntico el resultado tal como está, y respetá la cara, el cuerpo, el pelo y la piel de la persona sin retocarlos ni cambiarlos. Lo único que quiero que cambies es el entorno y la luz.'
+  };
+
+  var CIERRE = 'Resultado: fotografía publicitaria realista, de calidad profesional, sin texto ni logos superpuestos y sin marcas de agua. Formato cuadrado 1:1, pensado para redes sociales.';
+
+  function buildPrompts(d){
+    var esServicio = d.tipo === 'servicio';
+    var regla = REGLAS[d.tipo].replace('PRODUCTO', d.producto);
+    var cosa = esServicio ? 'el trabajo' : 'el producto';
+    var extra = d.detalle ? '\n\nAdemás: ' + d.detalle + '.' : '';
+
+    return [
+      {
+        tag: 'Escena principal',
+        para: esServicio
+          ? 'La foto aspiracional — tu trabajo en el lugar donde el cliente lo va a lucir.'
+          : 'La foto aspiracional — el producto donde la gente se lo imagina usando.',
+        texto: regla +
+          '\n\nUbicá ' + cosa + ' en ' + d.escena + '.' +
+          '\n\nIluminación: ' + luces[d.luz] + '.' +
+          '\n\nEstilo: ' + estilos[d.estilo] + '.' +
+          '\n\nCámara: fotografía realista, con el fondo suavemente desenfocado.' +
+          '\n\n' + CIERRE + extra
+      },
+      {
+        tag: 'Primer plano',
+        para: 'Para mostrar la calidad: la terminación y el detalle que se pierde de lejos.',
+        texto: regla +
+          '\n\nHacé un primer plano, bien cerca, que se vea el detalle y la terminación real. Mantené ' + cosa + ' exactamente como está en mi foto — solo cambiá lo que hay alrededor.' +
+          '\n\nDetrás, muy desenfocado y apenas insinuado, poné ' + d.escena + '.' +
+          '\n\nIluminación: ' + luces[d.luz] + ', resaltando el relieve y el material.' +
+          '\n\nEstilo: ' + estilos[d.estilo] + '.' +
+          '\n\n' + CIERRE + extra
+      },
+      {
+        tag: esServicio ? 'Fondo limpio (para el perfil)' : 'Fondo limpio (catálogo)',
+        para: 'La que te sirve para la foto de perfil, el catálogo o el anuncio.',
+        texto: regla +
+          (esServicio
+            ? '\n\nDejá el fondo liso y neutro, sin nada alrededor que distraiga, para que toda la atención quede en el resultado del trabajo. Encuadre centrado, con aire arriba y abajo.'
+            : '\n\nPoné el producto sobre un fondo liso y neutro de estudio, sin ningún objeto alrededor que distraiga. El producto centrado, entero, con aire arriba y abajo.') +
+          '\n\nIluminación: de estudio, limpia y pareja, con una sombra natural y suave para que no parezca recortado.' +
+          '\n\nEstilo: ' + estilos[d.estilo] + '.' +
+          '\n\n' + CIERRE + extra
+      }
+    ];
+  }
+
+  document.getElementById('form').addEventListener('submit', function(e){
+    e.preventDefault();
+
+    var producto = document.getElementById('producto').value.trim();
+    if(!producto){ document.getElementById('producto').focus(); return; }
+
+    var prompts = buildPrompts({
+      tipo: document.getElementById('tipo').value,
+      producto: producto,
+      escena: escenaFinal(),
+      luz: document.getElementById('luz').value,
+      estilo: document.getElementById('estilo').value,
+      detalle: document.getElementById('detalle').value.trim()
+    });
+
+    var cardsEl = document.getElementById('cards');
+    cardsEl.innerHTML = '';
+
+    prompts.forEach(function(p){
+      var card = document.createElement('div');
+      card.className = 'card';
+
+      var tag = document.createElement('span');
+      tag.className = 'tag';
+      tag.textContent = p.tag;
+
+      var para = document.createElement('p');
+      para.className = 'para';
+      para.textContent = p.para;
+
+      var pre = document.createElement('pre');
+      pre.textContent = p.texto;
+
+      var btn = document.createElement('button');
+      btn.className = 'copy';
+      btn.type = 'button';
+      btn.textContent = 'Copiar';
+      btn.addEventListener('click', function(){
+        var done = function(){
+          btn.textContent = '¡Copiado!';
+          btn.classList.add('copied');
+          setTimeout(function(){
+            btn.textContent = 'Copiar';
+            btn.classList.remove('copied');
+          }, 1600);
+        };
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(p.texto).then(done).catch(function(){ fallbackCopy(p.texto, done); });
+        } else {
+          fallbackCopy(p.texto, done);
+        }
+      });
+
+      card.appendChild(tag);
+      card.appendChild(para);
+      card.appendChild(pre);
+      card.appendChild(btn);
+      cardsEl.appendChild(card);
+    });
+
+    document.getElementById('empty').hidden = true;
+    cardsEl.hidden = false;
+  });
+
+  function fallbackCopy(text, done){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus(); ta.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta);
+    done();
+  }
+</script>
