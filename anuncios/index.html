@@ -1,0 +1,495 @@
+<title>Generador de Anuncios</title>
+<meta name="description" content="Armá el anuncio completo: el copy en los campos que pide Meta, y el prompt de la imagen. Listo para copiar y pegar en el Administrador de anuncios.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B0B0F'/%3E%3Crect x='6' y='19' width='5' height='8' rx='2' fill='%231668FF'/%3E%3Crect x='13.5' y='13' width='5' height='14' rx='2' fill='%237B2FF7'/%3E%3Crect x='21' y='6' width='5' height='21' rx='2' fill='%23E5127D'/%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://evelinguerraa.github.io/ayuda/anuncios/">
+<meta property="og:title" content="Generador de Anuncios">
+<meta property="og:description" content="El copy en los campos que pide Meta, y el prompt de la imagen. Listo para pegar en el Administrador de anuncios.">
+<meta property="og:image" content="https://evelinguerraa.github.io/ayuda/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="es_AR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#08080C;
+    --surface:#13131C;
+    --surface-2:#1A1A26;
+    --ink:#F5F4FA;
+    --ink-soft:#9C9AB2;
+    --faint:#6B6982;
+    --line:#262633;
+    --azul:#1668FF;
+    --azul-claro:#5B9BFF;
+    --violeta:#7B2FF7;
+    --violeta-claro:#B98BFF;
+    --magenta:#E5127D;
+    --magenta-claro:#FF6FB4;
+    --naranja:#FF7A18;
+    --degradado:linear-gradient(90deg,#1668FF 0%,#7B2FF7 48%,#E5127D 100%);
+    --focus:#B98BFF;
+    --card-shadow: 0 1px 2px rgba(0,0,0,.35), 0 10px 30px -16px rgba(123,47,247,.5);
+  }
+  *{ box-sizing:border-box; }
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:"Work Sans","Segoe UI",sans-serif;
+    margin:0; min-height:100vh; position:relative; overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition-duration:.01ms !important; }
+  }
+
+  .orbe{ position:fixed; border-radius:50%; filter:blur(95px); pointer-events:none; z-index:0; }
+  .orbe.a{ width:420px; height:420px; top:-190px; left:-150px;
+           background:radial-gradient(circle,rgba(22,104,255,.34),transparent 70%); }
+  .orbe.b{ width:460px; height:460px; bottom:-240px; right:-170px;
+           background:radial-gradient(circle,rgba(229,18,125,.26),transparent 70%); }
+
+  .wrap{ max-width:1000px; margin:0 auto; padding:28px 20px 64px; position:relative; z-index:1; }
+
+  a.volver{
+    display:inline-flex; align-items:center; gap:7px;
+    font-size:13.5px; font-weight:600; color:var(--violeta-claro);
+    text-decoration:none; margin-bottom:16px;
+  }
+  a.volver:hover{ text-decoration:underline; }
+  a.volver:focus-visible{ outline:2px solid var(--focus); outline-offset:3px; }
+
+  header.top{ padding-bottom:18px; margin-bottom:24px; border-bottom:1px solid var(--line); }
+  .brand{
+    font-family:"Sora",sans-serif; font-weight:800; font-size:11.5px; letter-spacing:.3em;
+    background:var(--degradado); -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  h1{
+    font-family:"Sora",sans-serif; font-weight:800; font-size:clamp(28px,4.4vw,38px);
+    letter-spacing:-.022em; margin:8px 0 8px; line-height:1.1; text-wrap:balance;
+    background:linear-gradient(105deg,#FFFFFF 0%,#C9B8FF 45%,#FF6FB4 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .lede{ color:var(--ink-soft); font-size:15.5px; line-height:1.6; max-width:64ch; margin:0; }
+  .lede b{ color:var(--ink); font-weight:600; }
+
+  .grid{ display:grid; grid-template-columns:1fr; gap:26px; }
+  @media (min-width:860px){ .grid{ grid-template-columns: 390px 1fr; align-items:start; } }
+
+  .panel{
+    background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:22px 22px 24px; box-shadow:var(--card-shadow);
+  }
+  .panel > h2{
+    font-family:"Sora",sans-serif; font-size:13px; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--violeta-claro); margin:0 0 16px;
+  }
+
+  form{ display:flex; flex-direction:column; gap:15px; }
+  .field{ display:flex; flex-direction:column; gap:6px; }
+  [hidden]{ display:none !important; }
+  label{ font-size:13px; font-weight:600; color:var(--ink); }
+  .hint{ font-size:12px; color:var(--ink-soft); font-weight:400; }
+
+  input[type="text"], select, textarea{
+    font-family:"Work Sans",sans-serif; font-size:14.5px; color:var(--ink);
+    background:var(--surface-2); border:1px solid var(--line);
+    border-radius:9px; padding:10px 12px; width:100%;
+  }
+  textarea{ resize:vertical; min-height:56px; line-height:1.5; }
+  input::placeholder, textarea::placeholder{ color:var(--faint); }
+  input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible{
+    outline:2px solid var(--focus); outline-offset:2px;
+  }
+  select{
+    appearance:none; -webkit-appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' stroke='%239C9AB2' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat; background-position:right 12px center; padding-right:32px;
+  }
+
+  .go{
+    margin-top:4px; font-family:"Sora",sans-serif; font-weight:700; font-size:14.5px;
+    color:#fff; background:var(--degradado); border:none; border-radius:9px;
+    padding:12px 18px; cursor:pointer;
+  }
+  .go:hover{ filter:brightness(1.08); }
+
+  .empty{
+    color:var(--ink-soft); font-size:14px; line-height:1.6;
+    border:1px dashed var(--line); border-radius:10px; padding:18px;
+  }
+
+  .bloque{ margin-bottom:24px; }
+  .bloque > h3{
+    font-family:"Sora",sans-serif; font-size:12.5px; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; margin:0 0 5px; display:flex; align-items:center; gap:8px;
+  }
+  .bloque > p.sub{ margin:0 0 12px; font-size:13px; line-height:1.55; color:var(--ink-soft); }
+  .n{
+    width:20px; height:20px; border-radius:50%; flex:none;
+    background:var(--degradado); color:#fff;
+    font-size:11px; font-weight:700; display:inline-flex;
+    align-items:center; justify-content:center;
+  }
+
+  .campo{
+    background:var(--surface-2); border:1px solid var(--line);
+    border-radius:11px; padding:13px 14px 12px; margin-bottom:10px;
+  }
+  .campo .rot{
+    font-family:"Sora",sans-serif; font-size:10.5px; font-weight:700; letter-spacing:.07em;
+    text-transform:uppercase; color:var(--azul-claro); display:block; margin-bottom:7px;
+  }
+  .campo pre{
+    margin:0 0 11px; font-family:"Work Sans",sans-serif; font-size:14px; line-height:1.6;
+    color:var(--ink); white-space:pre-wrap; word-wrap:break-word;
+  }
+  .campo .limite{ font-size:11.5px; color:var(--faint); margin:-6px 0 10px; }
+
+  .copy{
+    font-family:"Work Sans",sans-serif; font-weight:600; font-size:12.5px;
+    color:var(--violeta-claro); background:transparent;
+    border:1px solid rgba(185,139,255,.5); border-radius:7px;
+    padding:6px 11px; cursor:pointer;
+  }
+  .copy:hover{ background:rgba(123,47,247,.18); border-color:var(--violeta-claro); }
+  .copy.copied{ color:#fff; background:var(--violeta); border-color:var(--violeta); }
+
+  .aviso{
+    background:rgba(255,122,24,.10); border:1px solid rgba(255,122,24,.45);
+    border-left-width:4px; color:#FFC08A; border-radius:9px;
+    padding:12px 14px; margin-top:6px; font-size:13.5px; line-height:1.6;
+  }
+  .aviso b{ font-weight:700; }
+
+  .comunidad-borde{
+    background:var(--degradado); padding:1.6px; border-radius:16px;
+    margin-top:34px; box-shadow:0 14px 40px -22px rgba(229,18,125,.8);
+  }
+  .comunidad{ background:linear-gradient(150deg,#16131F,#0D0D14); border-radius:14.6px; padding:24px 22px 22px; }
+  .comunidad .kicker{
+    font-family:"Sora",sans-serif; font-size:10.5px; font-weight:700;
+    letter-spacing:.16em; text-transform:uppercase; color:var(--magenta-claro);
+    display:block; margin-bottom:8px;
+  }
+  .comunidad h2{
+    font-family:"Sora",sans-serif; font-size:21px; font-weight:800;
+    margin:0 0 9px; line-height:1.22; letter-spacing:-.015em; color:var(--ink);
+  }
+  .comunidad p{ margin:0 0 8px; font-size:14px; line-height:1.6; color:var(--ink-soft); }
+  .comunidad p b{ color:var(--ink); font-weight:600; }
+  a.btn-comunidad{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--degradado); color:#fff; text-decoration:none;
+    font-family:"Sora",sans-serif; font-weight:700; font-size:14.5px;
+    padding:11px 20px; border-radius:10px; margin-top:12px;
+    box-shadow:0 8px 24px -10px rgba(123,47,247,.95);
+  }
+  a.btn-comunidad:hover{ filter:brightness(1.07); }
+
+  .foot{
+    margin-top:34px; padding-top:16px; border-top:1px solid var(--line);
+    font-size:13px; color:var(--faint); line-height:1.6;
+  }
+  .foot a{ color:var(--violeta-claro); text-decoration:none; }
+</style>
+
+<div class="orbe a"></div>
+<div class="orbe b"></div>
+
+<div class="wrap">
+  <a class="volver" href="/ayuda/">← Todas las herramientas</a>
+
+  <header class="top">
+    <div class="brand">M3P ADS</div>
+    <h1>Generador de Anuncios</h1>
+    <p class="lede">Esta es la de <b>Publicidad</b>. Completá los datos de tu oferta y te devuelve el anuncio entero: el texto ya escrito en los campos exactos que te pide Meta, un prompt por si querés que la IA te tire variantes, y el prompt de la imagen. <b>Todo listo para copiar y pegar.</b></p>
+  </header>
+
+  <div class="grid">
+    <section class="panel">
+      <h2>Tu anuncio</h2>
+      <form id="form">
+        <div class="field">
+          <label for="producto">¿Qué vendés?</label>
+          <input type="text" id="producto" placeholder="Ej: asadores de hierro a medida" required>
+        </div>
+
+        <div class="field">
+          <label for="cliente">¿A quién le vendés?</label>
+          <input type="text" id="cliente" placeholder="Ej: familias que tienen patio">
+        </div>
+
+        <div class="field">
+          <label for="problema">¿Qué problema tiene hoy?</label>
+          <span class="hint">Escribilo como una frase que siga a "¿Te pasa que...?"</span>
+          <input type="text" id="problema" placeholder="Ej: las parrillas comunes se oxidan al año" required>
+        </div>
+
+        <div class="field">
+          <label for="beneficio">¿Qué gana si te compra?</label>
+          <input type="text" id="beneficio" placeholder="Ej: un asador que le dura décadas" required>
+        </div>
+
+        <div class="field">
+          <label for="accion">¿Qué querés que haga?</label>
+          <select id="accion">
+            <option value="whatsapp">Que me escriba por WhatsApp</option>
+            <option value="instagram">Que me mande mensaje por Instagram</option>
+            <option value="web">Que entre a mi página</option>
+            <option value="llamada">Que me llame</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="oferta">¿Tenés alguna oferta? <span class="hint">(opcional)</span></label>
+          <input type="text" id="oferta" placeholder="Ej: envío gratis en Córdoba">
+        </div>
+
+        <div class="field">
+          <label for="tono">Tono</label>
+          <select id="tono">
+            <option value="cercano">Cercano y directo</option>
+            <option value="profesional">Profesional</option>
+            <option value="divertido">Divertido</option>
+            <option value="urgente">Urgente</option>
+          </select>
+        </div>
+
+        <button type="submit" class="go">Generar anuncio</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Tu anuncio, listo</h2>
+      <div id="empty" class="empty">Completá los datos y tocá "Generar anuncio" — acá van a aparecer el texto, el prompt de variantes y el prompt de la imagen.</div>
+      <div id="salida" hidden></div>
+    </section>
+  </div>
+
+  <div class="comunidad-borde">
+    <div class="comunidad">
+      <span class="kicker">La comunidad</span>
+      <h2>¿Te sirvió? Esto es la punta del ovillo.</h2>
+      <p>Un buen anuncio con la cuenta mal armada abajo es plata tirada. Por eso el orden importa: primero la <b>Plataforma</b>, después la <b>Presencia</b>, y recién ahí la <b>Publicidad</b> — que es donde casi todos empiezan.</p>
+      <p>Eso lo trabajamos adentro de mi comunidad. Entrá, mirá, y preguntame lo que quieras.</p>
+      <a class="btn-comunidad" href="https://www.skool.com/metodo-3p-de-evelina-guerra-6868/about">Entrar a la comunidad →</a>
+    </div>
+  </div>
+
+  <div class="foot">
+    Hecho para el Desafío 3P · <a href="/ayuda/">M3P Ads</a>
+  </div>
+</div>
+
+<script>
+  var ctxAudio;
+  function plin(){
+    try{
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return;
+      ctxAudio = ctxAudio || new AC();
+      if(ctxAudio.state === 'suspended'){ ctxAudio.resume(); }
+      var t = ctxAudio.currentTime;
+      [[880, 0], [1318.5, 0.055]].forEach(function(par){
+        var osc = ctxAudio.createOscillator();
+        var vol = ctxAudio.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = par[0];
+        vol.gain.setValueAtTime(0.0001, t + par[1]);
+        vol.gain.exponentialRampToValueAtTime(0.11, t + par[1] + 0.012);
+        vol.gain.exponentialRampToValueAtTime(0.0001, t + par[1] + 0.30);
+        osc.connect(vol); vol.connect(ctxAudio.destination);
+        osc.start(t + par[1]); osc.stop(t + par[1] + 0.34);
+      });
+    }catch(e){}
+  }
+
+  function mayus(s){ return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+  function minus(s){ return s ? s.charAt(0).toLowerCase() + s.slice(1) : s; }
+  function sinPunto(s){ return s ? s.replace(/[.!?]+$/,'') : s; }
+
+  var cierres = {
+    whatsapp:  { texto:'Escribinos por WhatsApp y te pasamos toda la info 👉', boton:'Enviar mensaje' },
+    instagram: { texto:'Mandanos un mensaje por acá y te contamos 👉',        boton:'Enviar mensaje' },
+    web:       { texto:'Entrá al link y mirá todo 👉',                        boton:'Más información' },
+    llamada:   { texto:'Llamanos y te asesoramos 👉',                         boton:'Llamar ahora' }
+  };
+
+  function armarTexto(d){
+    var oferta = d.oferta ? '\n\n' + mayus(sinPunto(d.oferta)) + '.' : '';
+    var cta = cierres[d.accion].texto;
+    var P = sinPunto(minus(d.problema));
+    var B = sinPunto(minus(d.beneficio));
+    var Pr = sinPunto(d.producto);
+
+    var formas = {
+      cercano:     '¿Te pasa que ' + P + '?\n\nCon ' + minus(Pr) + ' eso no te pasa más: ' + B + '.' + oferta + '\n\n' + cta,
+      profesional: 'Si ' + P + ', esto te interesa.\n\n' + mayus(Pr) + ': ' + B + '.' + oferta + '\n\n' + cta,
+      divertido:   'Spoiler: ' + P + '. Y no tiene por qué ser así.\n\n' + mayus(Pr) + ' → ' + B + '.' + oferta + '\n\n' + cta,
+      urgente:     mayus(P) + '. Otra vez.\n\nBasta. ' + mayus(Pr) + ': ' + B + '.' + oferta + '\n\n' + cta
+    };
+    return formas[d.tono];
+  }
+
+  function armarTitulo(d){
+    return d.oferta ? mayus(sinPunto(d.oferta)) : mayus(sinPunto(d.beneficio));
+  }
+
+  function armarDescripcion(d){
+    return d.cliente
+      ? mayus(sinPunto(d.producto)) + ' para ' + minus(sinPunto(d.cliente))
+      : mayus(sinPunto(d.producto));
+  }
+
+  function promptVariantes(d){
+    return 'Sos redactor publicitario y escribís anuncios para Meta Ads en español rioplatense.\n\n' +
+      'Mi negocio: ' + d.producto + '.\n' +
+      (d.cliente ? 'Mi cliente: ' + d.cliente + '.\n' : '') +
+      'El problema que tiene hoy: ' + d.problema + '.\n' +
+      'Lo que gana si me compra: ' + d.beneficio + '.\n' +
+      (d.oferta ? 'Mi oferta: ' + d.oferta + '.\n' : '') +
+      'Quiero que la persona: ' + textoAccion(d.accion) + '.\n' +
+      'Tono: ' + d.tono + '.\n\n' +
+      'Escribime 3 versiones distintas del anuncio. Para cada una dame:\n' +
+      '1. Texto principal (que lo más importante entre en los primeros 125 caracteres, porque el resto se corta en el celular)\n' +
+      '2. Título (máximo 40 caracteres)\n' +
+      '3. Descripción (máximo 30 caracteres)\n\n' +
+      'Nada de promesas exageradas ni de palabras que Meta pueda rechazar. Hablame de vos, no de usted. Sin emojis de más: uno al final del texto principal como mucho.';
+  }
+
+  function textoAccion(a){
+    return { whatsapp:'me escriba por WhatsApp', instagram:'me mande un mensaje por Instagram',
+             web:'entre a mi página', llamada:'me llame' }[a];
+  }
+
+  function promptImagen(d){
+    return 'Usá la imagen que subí como referencia exacta de lo que vendo: ' + d.producto + '. ' +
+      'Es fundamental que NO modifiques el producto: mantené idéntica su forma, sus proporciones, su color, ' +
+      'su textura y cualquier logo o marca que tenga. Cambiá solamente el entorno y la luz.\n\n' +
+      'Esta imagen es para un ANUNCIO pagado, así que tiene que frenar el scroll:\n' +
+      '- El producto grande y centrado, que se entienda de un vistazo en una pantalla chica.\n' +
+      '- Fondo simple y con buen contraste contra el producto, sin objetos que distraigan.\n' +
+      '- Nada de texto, carteles, precios ni logos dentro de la imagen: el texto va aparte, en el anuncio.\n' +
+      '- Iluminación clara y pareja, colores vivos pero reales.\n\n' +
+      'Formato cuadrado 1:1. Fotografía realista de calidad profesional, sin marcas de agua.';
+  }
+
+  function tarjeta(rotulo, texto, limite){
+    var div = document.createElement('div');
+    div.className = 'campo';
+
+    var rot = document.createElement('span');
+    rot.className = 'rot'; rot.textContent = rotulo;
+
+    var pre = document.createElement('pre');
+    pre.textContent = texto;
+
+    div.appendChild(rot); div.appendChild(pre);
+
+    if(limite){
+      var lim = document.createElement('p');
+      lim.className = 'limite'; lim.textContent = limite;
+      div.appendChild(lim);
+    }
+
+    var btn = document.createElement('button');
+    btn.className = 'copy'; btn.type = 'button'; btn.textContent = 'Copiar';
+    btn.addEventListener('click', function(){
+      var listo = function(){
+        plin();
+        btn.textContent = '¡Copiado!'; btn.classList.add('copied');
+        setTimeout(function(){ btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 1600);
+      };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(texto).then(listo).catch(function(){ respaldo(texto, listo); });
+      } else { respaldo(texto, listo); }
+    });
+    div.appendChild(btn);
+    return div;
+  }
+
+  function bloque(numero, titulo, subtitulo){
+    var b = document.createElement('div');
+    b.className = 'bloque';
+    var h = document.createElement('h3');
+    var n = document.createElement('span');
+    n.className = 'n'; n.textContent = numero;
+    h.appendChild(n);
+    h.appendChild(document.createTextNode(titulo));
+    var s = document.createElement('p');
+    s.className = 'sub'; s.textContent = subtitulo;
+    b.appendChild(h); b.appendChild(s);
+    return b;
+  }
+
+  document.getElementById('form').addEventListener('submit', function(e){
+    e.preventDefault();
+
+    var d = {
+      producto: document.getElementById('producto').value.trim(),
+      cliente: document.getElementById('cliente').value.trim(),
+      problema: document.getElementById('problema').value.trim(),
+      beneficio: document.getElementById('beneficio').value.trim(),
+      accion: document.getElementById('accion').value,
+      oferta: document.getElementById('oferta').value.trim(),
+      tono: document.getElementById('tono').value
+    };
+    if(!d.producto){ document.getElementById('producto').focus(); return; }
+    if(!d.problema){ document.getElementById('problema').focus(); return; }
+    if(!d.beneficio){ document.getElementById('beneficio').focus(); return; }
+
+    var out = document.getElementById('salida');
+    out.innerHTML = '';
+
+    var b1 = bloque('1', 'El texto, campo por campo', 'Copiá cada uno y pegalo en el campo que lleva el mismo nombre en el Administrador de anuncios.');
+    b1.appendChild(tarjeta('Texto principal', armarTexto(d), 'Lo importante va al principio: en el celular se corta cerca de los 125 caracteres.'));
+    b1.appendChild(tarjeta('Título', armarTitulo(d), 'Si te quedó largo, acortalo: entran unos 40 caracteres.'));
+    b1.appendChild(tarjeta('Descripción', armarDescripcion(d), 'Corta, unos 30 caracteres.'));
+
+    var botonCard = document.createElement('div');
+    botonCard.className = 'campo';
+    botonCard.innerHTML = '<span class="rot">Botón</span>';
+    var pb = document.createElement('pre');
+    pb.textContent = cierres[d.accion].boton;
+    botonCard.appendChild(pb);
+    var nota = document.createElement('p');
+    nota.className = 'limite';
+    nota.textContent = 'Este no se copia: se elige de la lista desplegable de Meta.';
+    botonCard.appendChild(nota);
+    b1.appendChild(botonCard);
+    out.appendChild(b1);
+
+    var b2 = bloque('2', 'Prompt para variantes', 'Pegalo en ChatGPT o Gemini y te devuelve 3 versiones distintas, por si querés probar cuál rinde mejor.');
+    b2.appendChild(tarjeta('Para pegar en la IA', promptVariantes(d)));
+    out.appendChild(b2);
+
+    var b3 = bloque('3', 'Prompt de la imagen', 'Subí primero la foto de tu producto a ChatGPT o Gemini, y después pegá esto.');
+    b3.appendChild(tarjeta('Para pegar en la IA', promptImagen(d)));
+    var av = document.createElement('div');
+    av.className = 'aviso';
+    av.innerHTML = '<b>Ojo con el texto en la imagen:</b> no le pidas que le ponga precios ni carteles adentro. El texto va en los campos del anuncio, que es donde Meta lo lee y donde lo podés cambiar sin rehacer la imagen.';
+    b3.appendChild(av);
+    out.appendChild(b3);
+
+    document.getElementById('empty').hidden = true;
+    out.hidden = false;
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll('a.btn-comunidad'), function(a){
+    a.addEventListener('click', function(e){
+      if(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault(); plin();
+      var destino = a.getAttribute('href');
+      setTimeout(function(){ window.location.href = destino; }, 130);
+    });
+  });
+
+  function respaldo(texto, listo){
+    var ta = document.createElement('textarea');
+    ta.value = texto; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta); listo();
+  }
+</script>

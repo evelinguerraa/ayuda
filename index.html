@@ -92,7 +92,7 @@
 
   .tools{ display:flex; flex-direction:column; gap:13px; }
 
-  a.tool{
+  .tool{
     --acc:#7B2FF7;
     display:flex; gap:15px; align-items:flex-start;
     text-decoration:none; color:inherit;
@@ -103,23 +103,25 @@
     transition:transform .2s ease, border-color .2s ease, box-shadow .25s ease;
     animation:aparecer .5s ease backwards;
   }
-  .grupo:nth-of-type(1) a.tool:nth-child(1){ animation-delay:.05s; }
-  .grupo:nth-of-type(1) a.tool:nth-child(2){ animation-delay:.13s; }
-  .grupo:nth-of-type(2) a.tool:nth-child(1){ animation-delay:.21s; }
-  .grupo:nth-of-type(2) a.tool:nth-child(2){ animation-delay:.29s; }
+  .grupo:nth-of-type(1) .tool{ animation-delay:.05s; }
+  .grupo:nth-of-type(2) .tool{ animation-delay:.12s; }
+  .grupo:nth-of-type(3) .tool:nth-child(1){ animation-delay:.19s; }
+  .grupo:nth-of-type(3) .tool:nth-child(2){ animation-delay:.26s; }
+  .grupo:nth-of-type(3) .tool:nth-child(3){ animation-delay:.33s; }
+  .grupo:nth-of-type(4) .tool{ animation-delay:.40s; }
   @keyframes aparecer{ from{ opacity:0; transform:translateY(12px);} to{ opacity:1; transform:none;} }
 
   /* franja de color al costado */
-  a.tool:before{
+  .tool:before{
     content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
     background:var(--acc); opacity:.85;
   }
-  a.tool:hover{
+  .tool:hover{
     transform:translateY(-3px);
     border-color:var(--acc);
     box-shadow:0 10px 34px -14px var(--acc), 0 0 0 1px var(--acc) inset;
   }
-  a.tool:focus-visible{ outline:2px solid var(--acc); outline-offset:3px; }
+  .tool:focus-visible{ outline:2px solid var(--acc); outline-offset:3px; }
 
   .ico{
     flex:none; width:44px; height:44px; border-radius:12px;
@@ -133,14 +135,28 @@
   .ico svg{ width:23px; height:23px; }
 
   .txt{ min-width:0; }
-  a.tool h3{
+  .tool h3{
     font-family:"Sora",sans-serif; font-size:16.5px; font-weight:700;
     margin:1px 0 5px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;
     line-height:1.25;
   }
-  a.tool h3 .flecha{ color:var(--acc); font-weight:700; transition:transform .2s ease; display:inline-block; }
-  a.tool:hover h3 .flecha{ transform:translateX(4px); }
-  a.tool p{ margin:0; font-size:14px; line-height:1.55; color:var(--muted); }
+  .tool h3 .flecha{ color:var(--acc); font-weight:700; transition:transform .2s ease; display:inline-block; }
+  .tool:hover h3 .flecha{ transform:translateX(4px); }
+  .tool p{ margin:0; font-size:14px; line-height:1.55; color:var(--muted); }
+
+  /* tarjeta sin herramienta todavia */
+  .tool.proximamente{
+    cursor:default; opacity:.62;
+    background:linear-gradient(150deg,rgba(26,26,38,.5),rgba(19,19,28,.5));
+    border-style:dashed;
+  }
+  .tool.proximamente:hover{ transform:none; border-color:var(--line-solid); box-shadow:none; }
+  .pronto{
+    font-family:"Work Sans",sans-serif; font-size:10px; font-weight:700;
+    letter-spacing:.09em; text-transform:uppercase;
+    color:var(--faint); border:1px solid var(--line-solid);
+    border-radius:20px; padding:2px 9px; white-space:nowrap;
+  }
 
   .llave{
     font-family:"Work Sans",sans-serif; font-size:10px; font-weight:700;
@@ -320,7 +336,7 @@
   <div class="barra"></div>
 
   <div class="grupo">
-    <h2><span class="punto" style="--acc:#1668FF"></span>Abiertas para todos</h2>
+    <h2><span class="punto" style="--acc:#F5F4FA"></span>Antes que nada · el diagnóstico</h2>
     <div class="tools">
 
       <a class="tool" href="https://evelinguerraa.github.io/checklist-3p/" style="--acc:#1668FF">
@@ -338,6 +354,33 @@
         </span>
       </a>
 
+    </div>
+  </div>
+
+  <div class="grupo">
+    <h2><span class="punto" style="--acc:#1668FF"></span>1 · Plataforma</h2>
+    <div class="tools">
+      <div class="tool proximamente" style="--acc:#1668FF">
+        <span class="ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2.6" y="4.2" width="18.8" height="14" rx="2.6"/>
+            <path d="M2.6 8.6h18.8"/>
+            <circle cx="6" cy="6.4" r=".85" fill="currentColor" stroke="none"/>
+            <path d="M8 21.4h8M12 18.2v3.2"/>
+          </svg>
+        </span>
+        <span class="txt">
+          <h3>La base técnica <span class="pronto">en camino</span></h3>
+          <p>Acá va la cuenta de Facebook, el Instagram profesional, el Business Manager y la cuenta publicitaria. Eso no se arma con una herramienta: se arma paso a paso, y lo vemos en la comunidad.</p>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grupo">
+    <h2><span class="punto" style="--acc:#7B2FF7"></span>2 · Presencia</h2>
+    <div class="tools">
+
       <a class="tool" href="/ayuda/prompts" style="--acc:#7B2FF7">
         <span class="ico">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
@@ -352,13 +395,6 @@
           <p>Subís la foto de tu producto y te arma el texto exacto para que ChatGPT o Gemini te la conviertan en una foto profesional, sin cambiarte el producto.</p>
         </span>
       </a>
-
-    </div>
-  </div>
-
-  <div class="grupo">
-    <h2><span class="punto" style="--acc:#FF7A18"></span>Prompts para armar tus páginas · necesitan clave</h2>
-    <div class="tools">
 
       <a class="tool" href="https://www.evelinaguerra.click/generador" style="--acc:#E5127D">
         <span class="ico">
@@ -384,6 +420,28 @@
         <span class="txt">
           <h3>Prompt para tu Página de Ventas <span class="llave">🔑 clave</span> <span class="flecha">→</span></h3>
           <p>Cargás tu producto, los precios, los beneficios y a quién le vendés. Te devuelve el prompt listo para pegar en cualquier inteligencia artificial, y de un chasquido te arma la página de ventas completa.</p>
+        </span>
+      </a>
+
+    </div>
+  </div>
+
+  <div class="grupo">
+    <h2><span class="punto" style="--acc:#E5127D"></span>3 · Publicidad</h2>
+    <div class="tools">
+
+      <a class="tool" href="/ayuda/anuncios" style="--acc:#E5127D">
+        <span class="ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3.4 9.2h3.2l7.6-4.6v14.8L6.6 14.8H3.4a1.6 1.6 0 01-1.6-1.6v-2.4a1.6 1.6 0 011.6-1.6z"/>
+            <path d="M6.6 14.8v4.1a1.5 1.5 0 001.5 1.5h.7a1.5 1.5 0 001.5-1.5v-2.3"/>
+            <path d="M18.2 9.4a3.4 3.4 0 010 5.2"/>
+            <path d="M20.6 6.8a6.8 6.8 0 010 10.4"/>
+          </svg>
+        </span>
+        <span class="txt">
+          <h3>Generador de Anuncios <span class="flecha">→</span></h3>
+          <p>El anuncio entero, listo para subir: el texto ya escrito en los campos exactos que pide Meta, un prompt por si querés variantes, y el prompt de la imagen.</p>
         </span>
       </a>
 
