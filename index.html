@@ -1,8 +1,8 @@
 <title>Herramientas M3P Ads</title>
-<meta name="description" content="Las herramientas gratuitas de M3P Ads para armar tu publicidad en el orden correcto.">
+<meta name="description" content="Las herramientas de M3P Ads para armar tu publicidad en el orden correcto.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Work+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --ground:#0B0B0F;
@@ -10,6 +10,7 @@
     --line:#25252F;
     --text:#F2F2F7;
     --muted:#9494A8;
+    --faint:#6A6A7C;
     --azul:#1668FF;
     --violeta:#7B2FF7;
     --magenta:#E5127D;
@@ -20,12 +21,12 @@
     background:var(--ground); color:var(--text);
     font-family:"Work Sans","Segoe UI",sans-serif;
     margin:0; min-height:100vh;
-    display:flex; align-items:center; justify-content:center;
-    padding:32px 20px;
+    display:flex; justify-content:center;
+    padding:44px 20px 56px;
   }
   @media (prefers-reduced-motion: reduce){ *{ transition-duration:.01ms !important; } }
 
-  .wrap{ width:100%; max-width:600px; }
+  .wrap{ width:100%; max-width:620px; }
 
   .brand{
     font-family:"Sora",sans-serif; font-weight:800; font-size:12px; letter-spacing:.3em;
@@ -35,7 +36,14 @@
     font-family:"Sora",sans-serif; font-weight:700; font-size:clamp(26px,5vw,34px);
     margin:10px 0 8px; letter-spacing:-.01em; text-wrap:balance;
   }
-  .lede{ color:var(--muted); font-size:15.5px; line-height:1.6; margin:0 0 30px; max-width:52ch; }
+  .lede{ color:var(--muted); font-size:15.5px; line-height:1.6; margin:0 0 34px; max-width:52ch; }
+
+  .grupo{ margin-bottom:30px; }
+  .grupo > h2{
+    font-family:"Sora",sans-serif; font-size:11.5px; font-weight:700;
+    letter-spacing:.14em; text-transform:uppercase; color:var(--faint);
+    margin:0 0 13px;
+  }
 
   .tools{ display:flex; flex-direction:column; gap:12px; }
   a.tool{
@@ -46,15 +54,21 @@
   }
   a.tool:hover{ border-color:var(--violeta); transform:translateY(-1px); }
   a.tool:focus-visible{ outline:2px solid var(--violeta); outline-offset:3px; }
-  a.tool h2{
-    font-family:"Sora",sans-serif; font-size:17px; font-weight:700;
-    margin:0 0 5px; display:flex; align-items:center; gap:9px;
+  a.tool h3{
+    font-family:"Sora",sans-serif; font-size:16.5px; font-weight:700;
+    margin:0 0 5px; display:flex; align-items:center; gap:9px; flex-wrap:wrap;
   }
-  a.tool h2 .arrow{ color:var(--magenta); font-weight:600; }
+  a.tool h3 .arrow{ color:var(--magenta); font-weight:600; }
   a.tool p{ margin:0; font-size:14px; line-height:1.55; color:var(--muted); }
+  .llave{
+    font-family:"Work Sans",sans-serif; font-size:10.5px; font-weight:600;
+    letter-spacing:.08em; text-transform:uppercase;
+    color:var(--faint); border:1px solid var(--line);
+    border-radius:20px; padding:2px 9px;
+  }
 
   footer{
-    margin-top:34px; padding-top:18px; border-top:1px solid var(--line);
+    margin-top:36px; padding-top:18px; border-top:1px solid var(--line);
     font-size:13px; color:var(--muted); line-height:1.6;
   }
   footer a{ color:var(--text); }
@@ -63,18 +77,36 @@
 <div class="wrap">
   <div class="brand">M3P ADS</div>
   <h1>Herramientas</h1>
-  <p class="lede">Las herramientas que uso con mis alumnas del Desafío 3P. Todas gratis, todas se abren acá mismo.</p>
+  <p class="lede">Las herramientas que uso con mis alumnas. Algunas son abiertas y otras necesitan la clave que te doy en clase.</p>
 
-  <div class="tools">
-    <a class="tool" href="/prompts">
-      <h2>Generador de Prompts <span class="arrow">→</span></h2>
-      <p>Subís la foto de tu producto y te arma el texto exacto para que ChatGPT o Gemini te la conviertan en una foto profesional, sin cambiarte el producto.</p>
-    </a>
+  <div class="grupo">
+    <h2>Abiertas para todos</h2>
+    <div class="tools">
+      <a class="tool" href="https://evelinguerraa.github.io/checklist-3p/">
+        <h3>Checklist 3P <span class="arrow">→</span></h3>
+        <p>Quince preguntas para saber en cuál de los tres pilares se te está trabando la publicidad: Plataforma, Presencia o Publicidad.</p>
+      </a>
 
-    <a class="tool" href="https://evelinguerraa.github.io/checklist-3p/">
-      <h2>Checklist 3P <span class="arrow">→</span></h2>
-      <p>Quince preguntas para saber en cuál de los tres pilares se te está trabando la publicidad: Plataforma, Presencia o Publicidad.</p>
-    </a>
+      <a class="tool" href="/ayuda/prompts">
+        <h3>Prompts para Imágenes <span class="arrow">→</span></h3>
+        <p>Subís la foto de tu producto y te arma el texto exacto para que ChatGPT o Gemini te la conviertan en una foto profesional, sin cambiarte el producto.</p>
+      </a>
+    </div>
+  </div>
+
+  <div class="grupo">
+    <h2>Con clave de acceso</h2>
+    <div class="tools">
+      <a class="tool" href="https://www.evelinaguerra.click/generador">
+        <h3>Prompts para tu Landing <span class="llave">🔑 con clave</span> <span class="arrow">→</span></h3>
+        <p>Cargás los datos de tu producto y te devuelve el prompt optimizado para que una inteligencia artificial te arme la página de ventas.</p>
+      </a>
+
+      <a class="tool" href="https://evelinguerraa.github.io/GeneradorPV/">
+        <h3>Generador de Página de Ventas <span class="llave">🔑 con clave</span> <span class="arrow">→</span></h3>
+        <p>Te lleva paso a paso por tu infoproducto — qué vendés, a quién, qué frustración resolvés, colores — y te arma la página de ventas completa.</p>
+      </a>
+    </div>
   </div>
 
   <footer>
