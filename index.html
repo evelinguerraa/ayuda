@@ -5,111 +5,237 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ground:#0B0B0F;
-    --surface:#14141C;
-    --line:#25252F;
-    --text:#F2F2F7;
-    --muted:#9494A8;
-    --faint:#6A6A7C;
+    --ground:#08080C;
+    --surface:#13131C;
+    --surface-hi:#1A1A26;
+    --line:#26263300;
+    --line-solid:#262633;
+    --text:#F5F4FA;
+    --muted:#9C9AB2;
+    --faint:#6B6982;
     --azul:#1668FF;
     --violeta:#7B2FF7;
     --magenta:#E5127D;
+    --naranja:#FF7A18;
     --degradado:linear-gradient(90deg,#1668FF 0%,#7B2FF7 48%,#E5127D 100%);
   }
+
   *{ box-sizing:border-box; }
+
   body{
-    background:var(--ground); color:var(--text);
+    background:var(--ground);
+    color:var(--text);
     font-family:"Work Sans","Segoe UI",sans-serif;
     margin:0; min-height:100vh;
     display:flex; justify-content:center;
-    padding:44px 20px 56px;
+    padding:52px 20px 60px;
+    position:relative; overflow-x:hidden;
   }
-  @media (prefers-reduced-motion: reduce){ *{ transition-duration:.01ms !important; } }
 
-  .wrap{ width:100%; max-width:620px; }
+  /* resplandores de fondo */
+  .orbe{
+    position:fixed; border-radius:50%; filter:blur(90px);
+    pointer-events:none; z-index:0;
+  }
+  .orbe.a{ width:420px; height:420px; top:-160px; left:-140px;
+           background:radial-gradient(circle,rgba(22,104,255,.42),transparent 70%);
+           animation:flotarA 16s ease-in-out infinite; }
+  .orbe.b{ width:460px; height:460px; bottom:-200px; right:-160px;
+           background:radial-gradient(circle,rgba(229,18,125,.34),transparent 70%);
+           animation:flotarB 19s ease-in-out infinite; }
+  .orbe.c{ width:320px; height:320px; top:38%; right:-120px;
+           background:radial-gradient(circle,rgba(123,47,247,.30),transparent 70%);
+           animation:flotarA 22s ease-in-out infinite; }
+  @keyframes flotarA{ 0%,100%{transform:translate(0,0)} 50%{transform:translate(28px,34px)} }
+  @keyframes flotarB{ 0%,100%{transform:translate(0,0)} 50%{transform:translate(-30px,-26px)} }
 
+  .wrap{ width:100%; max-width:640px; position:relative; z-index:1; }
+
+  /* encabezado */
   .brand{
-    font-family:"Sora",sans-serif; font-weight:800; font-size:12px; letter-spacing:.3em;
+    display:inline-block;
+    font-family:"Sora",sans-serif; font-weight:800; font-size:11.5px; letter-spacing:.32em;
     background:var(--degradado); -webkit-background-clip:text; background-clip:text; color:transparent;
+    padding:5px 0;
   }
   h1{
-    font-family:"Sora",sans-serif; font-weight:700; font-size:clamp(26px,5vw,34px);
-    margin:10px 0 8px; letter-spacing:-.01em; text-wrap:balance;
+    font-family:"Sora",sans-serif; font-weight:800; font-size:clamp(34px,7vw,48px);
+    margin:6px 0 10px; letter-spacing:-.025em; line-height:1.05;
+    background:linear-gradient(105deg,#FFFFFF 0%,#C9B8FF 42%,#FF6FB4 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
   }
-  .lede{ color:var(--muted); font-size:15.5px; line-height:1.6; margin:0 0 34px; max-width:52ch; }
+  .lede{ color:var(--muted); font-size:16px; line-height:1.62; margin:0 0 14px; max-width:50ch; }
+  .barra{ height:4px; width:96px; border-radius:4px; background:var(--degradado); margin-bottom:38px;
+          box-shadow:0 0 18px rgba(123,47,247,.7); }
 
-  .grupo{ margin-bottom:30px; }
+  /* grupos */
+  .grupo{ margin-bottom:34px; }
   .grupo > h2{
+    display:flex; align-items:center; gap:9px;
     font-family:"Sora",sans-serif; font-size:11.5px; font-weight:700;
-    letter-spacing:.14em; text-transform:uppercase; color:var(--faint);
-    margin:0 0 13px;
+    letter-spacing:.15em; text-transform:uppercase; color:var(--faint);
+    margin:0 0 15px;
   }
+  .punto{ width:7px; height:7px; border-radius:50%; background:var(--acc,#7B2FF7);
+          box-shadow:0 0 10px var(--acc,#7B2FF7); }
 
-  .tools{ display:flex; flex-direction:column; gap:12px; }
+  .tools{ display:flex; flex-direction:column; gap:13px; }
+
   a.tool{
-    display:block; text-decoration:none; color:inherit;
-    background:var(--surface); border:1px solid var(--line);
-    border-radius:13px; padding:18px 20px;
-    transition:border-color .18s ease, transform .18s ease;
+    --acc:#7B2FF7;
+    display:flex; gap:15px; align-items:flex-start;
+    text-decoration:none; color:inherit;
+    background:linear-gradient(150deg,var(--surface-hi),var(--surface));
+    border:1px solid var(--line-solid);
+    border-radius:16px; padding:18px 19px;
+    position:relative; overflow:hidden;
+    transition:transform .2s ease, border-color .2s ease, box-shadow .25s ease;
+    animation:aparecer .5s ease backwards;
   }
-  a.tool:hover{ border-color:var(--violeta); transform:translateY(-1px); }
-  a.tool:focus-visible{ outline:2px solid var(--violeta); outline-offset:3px; }
+  a.tool:nth-child(1){ animation-delay:.05s; }
+  a.tool:nth-child(2){ animation-delay:.13s; }
+  @keyframes aparecer{ from{ opacity:0; transform:translateY(12px);} to{ opacity:1; transform:none;} }
+
+  /* franja de color al costado */
+  a.tool:before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
+    background:var(--acc); opacity:.85;
+  }
+  a.tool:hover{
+    transform:translateY(-3px);
+    border-color:var(--acc);
+    box-shadow:0 10px 34px -14px var(--acc), 0 0 0 1px var(--acc) inset;
+  }
+  a.tool:focus-visible{ outline:2px solid var(--acc); outline-offset:3px; }
+
+  .ico{
+    flex:none; width:44px; height:44px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--acc);
+    background:radial-gradient(circle at 30% 25%, color-mix(in srgb, var(--acc) 34%, transparent), transparent 72%),
+               rgba(255,255,255,.04);
+    border:1px solid color-mix(in srgb, var(--acc) 42%, transparent);
+    box-shadow:0 0 18px -6px var(--acc);
+  }
+  .ico svg{ width:23px; height:23px; }
+
+  .txt{ min-width:0; }
   a.tool h3{
     font-family:"Sora",sans-serif; font-size:16.5px; font-weight:700;
-    margin:0 0 5px; display:flex; align-items:center; gap:9px; flex-wrap:wrap;
+    margin:1px 0 5px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+    line-height:1.25;
   }
-  a.tool h3 .arrow{ color:var(--magenta); font-weight:600; }
+  a.tool h3 .flecha{ color:var(--acc); font-weight:700; transition:transform .2s ease; display:inline-block; }
+  a.tool:hover h3 .flecha{ transform:translateX(4px); }
   a.tool p{ margin:0; font-size:14px; line-height:1.55; color:var(--muted); }
+
   .llave{
-    font-family:"Work Sans",sans-serif; font-size:10.5px; font-weight:600;
-    letter-spacing:.08em; text-transform:uppercase;
-    color:var(--faint); border:1px solid var(--line);
-    border-radius:20px; padding:2px 9px;
+    font-family:"Work Sans",sans-serif; font-size:10px; font-weight:700;
+    letter-spacing:.09em; text-transform:uppercase;
+    color:var(--naranja);
+    background:rgba(255,122,24,.12);
+    border:1px solid rgba(255,122,24,.42);
+    border-radius:20px; padding:2px 9px; white-space:nowrap;
   }
 
   footer{
-    margin-top:36px; padding-top:18px; border-top:1px solid var(--line);
-    font-size:13px; color:var(--muted); line-height:1.6;
+    margin-top:42px; padding-top:20px;
+    border-top:1px solid var(--line-solid);
+    font-size:13px; color:var(--faint); line-height:1.6;
   }
-  footer a{ color:var(--text); }
+  footer a{ color:var(--muted); text-decoration:none; border-bottom:1px solid rgba(255,255,255,.18); }
+  footer a:hover{ color:var(--text); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition-duration:.01ms !important; }
+  }
 </style>
+
+<div class="orbe a"></div>
+<div class="orbe b"></div>
+<div class="orbe c"></div>
 
 <div class="wrap">
   <div class="brand">M3P ADS</div>
   <h1>Herramientas</h1>
-  <p class="lede">Las herramientas que uso con mis alumnas. Algunas son abiertas y otras necesitan la clave que te doy en clase.</p>
+  <p class="lede">Las que uso con mis alumnas para armar la publicidad en el orden correcto. Algunas son abiertas; otras necesitan la clave que te doy en clase.</p>
+  <div class="barra"></div>
 
   <div class="grupo">
-    <h2>Abiertas para todos</h2>
+    <h2><span class="punto" style="--acc:#1668FF"></span>Abiertas para todos</h2>
     <div class="tools">
-      <a class="tool" href="https://evelinguerraa.github.io/checklist-3p/">
-        <h3>Checklist 3P <span class="arrow">→</span></h3>
-        <p>Quince preguntas para saber en cuál de los tres pilares se te está trabando la publicidad: Plataforma, Presencia o Publicidad.</p>
+
+      <a class="tool" href="https://evelinguerraa.github.io/checklist-3p/" style="--acc:#1668FF">
+        <span class="ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3.5 6.6l1.5 1.5 3-3"/>
+            <path d="M3.5 13.1l1.5 1.5 3-3"/>
+            <path d="M3.5 19.6l1.5 1.5 3-3"/>
+            <path d="M12 6.2h8.5M12 12.7h8.5M12 19.2h5.5"/>
+          </svg>
+        </span>
+        <span class="txt">
+          <h3>Checklist 3P <span class="flecha">→</span></h3>
+          <p>Quince preguntas para saber en cuál de los tres pilares se te está trabando la publicidad: Plataforma, Presencia o Publicidad.</p>
+        </span>
       </a>
 
-      <a class="tool" href="/ayuda/prompts">
-        <h3>Prompts para Imágenes <span class="arrow">→</span></h3>
-        <p>Subís la foto de tu producto y te arma el texto exacto para que ChatGPT o Gemini te la conviertan en una foto profesional, sin cambiarte el producto.</p>
+      <a class="tool" href="/ayuda/prompts" style="--acc:#7B2FF7">
+        <span class="ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2.5" y="5" width="15.5" height="13.5" rx="2.6"/>
+            <circle cx="7.4" cy="10" r="1.6"/>
+            <path d="M2.9 15.6l3.9-3.4 3.6 3 2.6-2.2 5 4.3"/>
+            <path d="M20.4 3.2l.75 1.85 1.85.75-1.85.75-.75 1.85-.75-1.85L17.8 5.8l1.85-.75z"/>
+          </svg>
+        </span>
+        <span class="txt">
+          <h3>Prompts para Imágenes <span class="flecha">→</span></h3>
+          <p>Subís la foto de tu producto y te arma el texto exacto para que ChatGPT o Gemini te la conviertan en una foto profesional, sin cambiarte el producto.</p>
+        </span>
       </a>
+
     </div>
   </div>
 
   <div class="grupo">
-    <h2>Con clave de acceso</h2>
+    <h2><span class="punto" style="--acc:#FF7A18"></span>Con clave de acceso</h2>
     <div class="tools">
-      <a class="tool" href="https://www.evelinaguerra.click/generador">
-        <h3>Prompts para tu Landing <span class="llave">🔑 con clave</span> <span class="arrow">→</span></h3>
-        <p>Cargás los datos de tu producto y te devuelve el prompt optimizado para que una inteligencia artificial te arme la página de ventas.</p>
+
+      <a class="tool" href="https://www.evelinaguerra.click/generador" style="--acc:#E5127D">
+        <span class="ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3.6 20.4L13.4 10.6"/>
+            <path d="M14.9 3.4l1.1 2.6 2.6 1.1-2.6 1.1-1.1 2.6-1.1-2.6L11.2 7.1l2.6-1.1z"/>
+            <path d="M20.4 13.2v3M21.9 14.7h-3"/>
+            <path d="M6.2 3.4v2.6M7.5 4.7H4.9"/>
+          </svg>
+        </span>
+        <span class="txt">
+          <h3>Prompts para tu Landing <span class="llave">🔑 clave</span> <span class="flecha">→</span></h3>
+          <p>Cargás los datos de tu producto y te devuelve el prompt optimizado para que una inteligencia artificial te arme la página de ventas.</p>
+        </span>
       </a>
 
-      <a class="tool" href="https://evelinguerraa.github.io/GeneradorPV/">
-        <h3>Generador de Página de Ventas <span class="llave">🔑 con clave</span> <span class="arrow">→</span></h3>
-        <p>Te lleva paso a paso por tu infoproducto — qué vendés, a quién, qué frustración resolvés, colores — y te arma la página de ventas completa.</p>
+      <a class="tool" href="https://evelinguerraa.github.io/GeneradorPV/" style="--acc:#FF7A18">
+        <span class="ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2.8" y="3.6" width="18.4" height="16.8" rx="2.6"/>
+            <path d="M2.8 8.2h18.4"/>
+            <circle cx="6" cy="5.9" r=".85" fill="currentColor" stroke="none"/>
+            <path d="M6.6 11.6h10.8M6.6 15.2h7.2M6.6 18h4.4"/>
+          </svg>
+        </span>
+        <span class="txt">
+          <h3>Generador de Página de Ventas <span class="llave">🔑 clave</span> <span class="flecha">→</span></h3>
+          <p>Te lleva paso a paso por tu infoproducto — qué vendés, a quién, qué frustración resolvés, colores — y te arma la página de ventas completa.</p>
+        </span>
       </a>
+
     </div>
   </div>
 
   <footer>
-    Método 3P · <a href="https://www.evelinaguerra.click/metodo3p">evelinaguerra.click</a>
+    Método 3P · <a href="https://www.evelinaguerra.click/metodo3p">evelinaguerra.click</a> · <a href="https://instagram.com/evelinaaguerra">@evelinaaguerra</a>
   </footer>
 </div>
