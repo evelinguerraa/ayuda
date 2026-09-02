@@ -1,10 +1,10 @@
 <title>Imagen para tu Anuncio</title>
-<meta name="description" content="El prompt de la imagen de tu anuncio — tengas o no tengas una foto de lo que vendés.">
+<meta name="description" content="Contestá seis cosas de tu negocio y te armamos el prompt que le pide a la IA el anuncio entero, diseñado y listo para publicar.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B0B0F'/%3E%3Crect x='6' y='19' width='5' height='8' rx='2' fill='%231668FF'/%3E%3Crect x='13.5' y='13' width='5' height='14' rx='2' fill='%237B2FF7'/%3E%3Crect x='21' y='6' width='5' height='21' rx='2' fill='%23E5127D'/%3E%3C/svg%3E">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://evelinguerraa.github.io/ayuda/imagen/">
 <meta property="og:title" content="Imagen para tu Anuncio">
-<meta property="og:description" content="El prompt de la imagen de tu anuncio — tengas o no tengas una foto de lo que vendés.">
+<meta property="og:description" content="Contestá seis cosas de tu negocio y te armamos el prompt que le pide a la IA el anuncio entero, diseñado y listo para publicar.">
 <meta property="og:image" content="https://evelinguerraa.github.io/ayuda/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -85,7 +85,7 @@
     background:var(--surface-2); border:1px solid var(--line);
     border-radius:9px; padding:10px 12px; width:100%;
   }
-  textarea{ resize:vertical; min-height:56px; line-height:1.5; }
+  textarea{ resize:vertical; min-height:78px; line-height:1.55; }
   input::placeholder, textarea::placeholder{ color:var(--faint); }
   input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible{
     outline:2px solid var(--focus); outline-offset:2px;
@@ -94,20 +94,6 @@
     appearance:none; -webkit-appearance:none;
     background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' stroke='%239C9AB2' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
     background-repeat:no-repeat; background-position:right 12px center; padding-right:32px;
-  }
-
-  /* elegir camino */
-  .camino{ display:grid; grid-template-columns:1fr 1fr; gap:9px; }
-  .camino button{
-    font-family:"Work Sans",sans-serif; font-size:13.5px; font-weight:600;
-    color:var(--ink-soft); background:var(--surface-2);
-    border:1px solid var(--line); border-radius:10px;
-    padding:12px 10px; cursor:pointer; text-align:center; line-height:1.35;
-  }
-  .camino button.on{
-    color:var(--ink); border-color:var(--violeta);
-    background:rgba(123,47,247,.16);
-    box-shadow:0 0 22px -8px var(--violeta);
   }
 
   .go{
@@ -130,10 +116,11 @@
     font-family:"Sora",sans-serif; font-size:11px; font-weight:700; letter-spacing:.06em;
     text-transform:uppercase; color:var(--azul-claro); display:block; margin-bottom:3px;
   }
-  .campo .para{ font-size:12.5px; color:var(--ink-soft); margin:0 0 9px; }
+  .campo .para{ font-size:12.5px; color:var(--ink-soft); margin:0 0 10px; }
   .campo pre{
-    margin:0 0 12px; font-family:"Work Sans",sans-serif; font-size:13.5px; line-height:1.6;
+    margin:0 0 12px; font-family:"Work Sans",sans-serif; font-size:13px; line-height:1.62;
     color:var(--ink); white-space:pre-wrap; word-wrap:break-word;
+    max-height:340px; overflow-y:auto;
   }
 
   .copy{
@@ -153,7 +140,7 @@
   .aviso b{ font-weight:700; }
 
   .siguiente{
-    margin-top:22px; background:var(--surface); border:1px solid var(--line);
+    margin-top:14px; background:var(--surface-2); border:1px solid var(--line);
     border-radius:13px; padding:17px 19px;
   }
   .siguiente h3{
@@ -216,85 +203,90 @@
   <header class="top">
     <div class="brand">M3P ADS</div>
     <h1>Imagen para tu Anuncio</h1>
-    <p class="lede">La imagen de un anuncio no es la misma que la de un posteo: tiene que frenar el scroll. Acá armás el prompt — <b>tengas o no tengas una foto</b> de lo que vendés.</p>
+    <p class="lede">Contestá seis cosas de tu negocio, en criollo. Nosotros armamos el pedido completo — qué va arriba, qué va al medio, qué va abajo, los colores, el botón — para que la inteligencia artificial te devuelva <b>el anuncio entero, diseñado y listo para publicar</b>.</p>
   </header>
 
   <div class="grid">
     <section class="panel">
-      <h2>Tu imagen</h2>
+      <h2>Tu negocio</h2>
       <form id="form">
 
         <div class="field">
-          <label>¿Tenés una foto de lo que vendés?</label>
-          <div class="camino">
-            <button type="button" id="btn-si" class="on">Sí, tengo foto</button>
-            <button type="button" id="btn-no">No tengo todavía</button>
-          </div>
+          <label for="producto">1 · ¿Qué vendés?</label>
+          <input type="text" id="producto" placeholder="Ej: páginas web para negocios" required>
         </div>
 
         <div class="field">
-          <label for="producto">¿Qué vendés?</label>
-          <input type="text" id="producto" placeholder="Ej: asadores de hierro a medida" required>
+          <label for="problema">2 · ¿Qué le pasa hoy a tu cliente?</label>
+          <span class="hint">Decíselo a él, de vos. Como si lo tuvieras enfrente.</span>
+          <input type="text" id="problema" placeholder="Ej: te buscan en Google y no te encuentran" required>
         </div>
 
-        <div class="field" id="wrap-quien">
-          <label for="cliente">¿A quién le vendés? <span class="hint">(opcional)</span></label>
-          <input type="text" id="cliente" placeholder="Ej: familias que tienen patio">
+        <div class="field">
+          <label for="beneficio">3 · ¿Qué gana con lo que vendés?</label>
+          <input type="text" id="beneficio" placeholder="Ej: que te encuentren y te escriban" required>
         </div>
 
-        <div class="field" id="wrap-sinfoto" hidden>
-          <label for="enfoque">Sin foto, ¿qué mostramos?</label>
-          <select id="enfoque">
-            <option value="escena">La escena donde se usa, sin el producto de protagonista</option>
-            <option value="resultado">El resultado: gente disfrutando lo que lograron</option>
-            <option value="problema">El problema que resolvés, para que se sientan identificados</option>
-            <option value="grafico">Un fondo gráfico, para que mande el texto del anuncio</option>
+        <div class="field">
+          <label for="incluye">4 · ¿Qué incluye?</label>
+          <span class="hint">Tres o cuatro cosas, una por renglón.</span>
+          <textarea id="incluye" placeholder="Diseño que se ve bien en el celular&#10;Botón directo a WhatsApp&#10;Presencia profesional&#10;Optimizada para Google"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="precio">5 · Precio u oferta <span class="hint">(opcional)</span></label>
+          <input type="text" id="precio" placeholder="Ej: Desde $85.000 · Entrega en 7 días">
+        </div>
+
+        <div class="field">
+          <label for="accion">6 · ¿Qué querés que haga?</label>
+          <select id="accion">
+            <option value="whatsapp">Que me escriba por WhatsApp</option>
+            <option value="instagram">Que me mande mensaje por Instagram</option>
+            <option value="web">Que entre a mi página</option>
+            <option value="llamada">Que me llame</option>
           </select>
         </div>
 
         <div class="field">
-          <label for="luz">¿Con qué luz?</label>
-          <select id="luz">
-            <option value="dia">Luz de día, natural y clara</option>
-            <option value="atardecer">Luz cálida de atardecer</option>
-            <option value="noche">De noche, con luces cálidas</option>
-            <option value="estudio">Luz de estudio, limpia y pareja</option>
+          <label for="visual">¿Qué se ve en el anuncio?</label>
+          <select id="visual">
+            <option value="foto">Una foto mía, que voy a subir</option>
+            <option value="celular">Un celular mostrando mi web o mi Instagram</option>
+            <option value="escena">La escena donde se usa lo que vendo</option>
+            <option value="solotexto">Solo diseño y texto, sin fotos</option>
           </select>
         </div>
 
         <div class="field">
-          <label for="estilo">Estilo</label>
-          <select id="estilo">
-            <option value="rustico">Rústico y cálido</option>
-            <option value="moderno">Limpio y moderno</option>
-            <option value="vibrante">Vibrante y alegre</option>
-            <option value="premium">Premium y elegante</option>
+          <label for="paleta">Colores</label>
+          <select id="paleta">
+            <option value="neon">Oscuro con neón, bien llamativo</option>
+            <option value="claro">Claro y limpio</option>
+            <option value="calido">Cálido, tonos tierra</option>
+            <option value="sobrio">Sobrio y elegante</option>
           </select>
         </div>
 
-        <div class="field">
-          <label for="detalle">Algo más que quieras pedirle <span class="hint">(opcional)</span></label>
-          <textarea id="detalle" placeholder="Ej: que haya plantas alrededor"></textarea>
-        </div>
-
-        <button type="submit" class="go">Generar prompt</button>
+        <button type="submit" class="go">Generar el anuncio</button>
       </form>
     </section>
 
     <section class="panel">
       <h2>Tu prompt</h2>
-      <div id="empty" class="empty">Elegí si tenés foto o no, completá los datos y tocá "Generar prompt".</div>
+      <div id="empty" class="empty">Completá los datos y tocá "Generar el anuncio". Te vamos a dar un texto largo — es a propósito: cuanto más preciso el pedido, menos inventa la IA.</div>
       <div id="salida" hidden></div>
     </section>
   </div>
 
   <section class="tips">
-    <h2>Para que salga bien</h2>
+    <h2>Antes de publicarlo</h2>
     <ul>
-      <li><b>Nunca dejes que la IA invente tu producto.</b> Si te dibuja un asador que no es el tuyo y alguien te compra por esa foto, el problema lo tenés después vos. Por eso, cuando no hay foto, acá le pedimos la escena o el ambiente — nunca el producto.</li>
-      <li><b>Sin texto adentro de la imagen.</b> El texto va en los campos del anuncio, que es donde Meta lo lee y donde lo cambiás sin rehacer nada.</li>
-      <li><b>Pensala chiquita.</b> Se va a ver en un celular, entre medio de otras cien cosas. Si no se entiende en un segundo, no sirve.</li>
-      <li><b>La foto real gana siempre.</b> Aunque la saques con el celular. La imagen generada es para salir del paso hasta que tengas la tuya.</li>
+      <li><b>Revisá la ortografía letra por letra.</b> Estas IA todavía escriben mal en español: se comen tildes y cambian letras. Un anuncio con una palabra mal escrita te tira abajo toda la confianza.</li>
+      <li><b>Fijate que el precio sea el tuyo.</b> A veces cambia un número. Miralo dos veces antes de poner plata atrás.</li>
+      <li><b>Que no haya inventado nada.</b> Si aparece un teléfono, una dirección o un servicio que vos no pusiste, pedile que lo saque.</li>
+      <li><b>Si algo no te gusta, no empieces de cero.</b> Respondele en el mismo chat pidiendo el cambio puntual: "dejá todo igual pero cambiá el titular por...".</li>
+      <li><b>Miralo en el celular.</b> Es donde lo van a ver. Si tenés que agrandar para leer el titular, hay que agrandarlo.</li>
     </ul>
   </section>
 
@@ -302,7 +294,7 @@
     <div class="comunidad">
       <span class="kicker">La comunidad</span>
       <h2>¿Te sirvió? Esto es la punta del ovillo.</h2>
-      <p>Una buena imagen con la cuenta mal armada abajo es plata tirada. Por eso el orden importa: primero la <b>Plataforma</b>, después la <b>Presencia</b>, y recién ahí la <b>Publicidad</b>.</p>
+      <p>Un anuncio espectacular con la cuenta mal armada abajo es plata tirada. Por eso el orden importa: primero la <b>Plataforma</b>, después la <b>Presencia</b>, y recién ahí la <b>Publicidad</b>.</p>
       <p>Eso lo trabajamos adentro de mi comunidad. Entrá, mirá, y preguntame lo que quieras.</p>
       <a class="btn-comunidad" href="https://www.skool.com/metodo-3p-de-evelina-guerra-6868/about">Entrar a la comunidad →</a>
     </div>
@@ -334,79 +326,79 @@
     }catch(e){}
   }
 
-  var tengoFoto = true;
-  var btnSi = document.getElementById('btn-si'), btnNo = document.getElementById('btn-no');
-  function elegir(v){
-    tengoFoto = v;
-    btnSi.classList.toggle('on', v);
-    btnNo.classList.toggle('on', !v);
-    document.getElementById('wrap-sinfoto').hidden = v;
-  }
-  btnSi.addEventListener('click', function(){ elegir(true); });
-  btnNo.addEventListener('click', function(){ elegir(false); });
+  function mayus(t){ return t ? t.charAt(0).toUpperCase() + t.slice(1) : t; }
 
-  var luces = {
-    dia:      'luz de día natural y clara, sin sombras duras',
-    atardecer:'luz cálida de atardecer entrando de costado, sombras largas y suaves, tonos dorados',
-    noche:    'luz cálida de noche, con puntos de luz suaves y desenfocados al fondo',
-    estudio:  'iluminación de estudio limpia y pareja'
-  };
-  var estilos = {
-    rustico: 'estética rústica y cálida, materiales naturales, paleta de tonos tierra',
-    moderno: 'estética limpia y moderna, composición minimalista, paleta neutra',
-    vibrante:'estética vibrante y alegre, colores saturados con buen contraste',
-    premium: 'estética premium y sobria, paleta contenida, sensación de algo caro y bien hecho'
+  var paletas = {
+    neon:   'Fondo azul muy oscuro, casi negro. Textos en blanco con palabras clave resaltadas en celeste, violeta y rosa fuerte. Detalles con brillo tipo neón, líneas finas que iluminan. Alto contraste.',
+    claro:  'Fondo blanco o gris muy claro. Textos en gris oscuro con palabras clave en un azul intenso. Mucho aire entre los bloques, líneas finas para separar. Limpio y ordenado.',
+    calido: 'Fondo en tonos tierra oscuros. Textos en crema con palabras clave en naranja y dorado. Texturas suaves, sensación cálida y cercana.',
+    sobrio: 'Fondo gris grafito. Textos en blanco con palabras clave en dorado suave. Paleta contenida, poco color, mucho espacio en blanco. Sensación de algo caro y bien hecho.'
   };
 
-  var REGLAS_ANUNCIO =
-    'Esta imagen es para un ANUNCIO pagado en redes, así que tiene que frenar el scroll:\n' +
-    '- Composición simple y con buen contraste, que se entienda de un vistazo en una pantalla chica.\n' +
-    '- Nada de texto, carteles, precios ni logos dentro de la imagen.\n' +
-    '- Formato cuadrado 1:1. Fotografía realista de calidad profesional, sin marcas de agua.';
+  var visuales = {
+    foto:      'Usá la foto que subí. No modifiques lo que aparece en ella: mantené igual su forma, su color y sus detalles. Integrala al diseño, recortada prolija, ocupando un lugar destacado pero sin taparle el lugar al texto.',
+    celular:   'Mostrá un celular moderno, en perspectiva, con la pantalla encendida mostrando una web o un perfil de red social genérico. Que se vea nítido y realista, con un reflejo suave.',
+    escena:    'Mostrá una fotografía realista del lugar donde se usa lo que vendo, integrada al diseño y con el texto encima. No inventes ni dibujes un producto de marca: mostrá el ambiente, no el producto en primer plano.',
+    solotexto: 'Sin fotos ni objetos. Que manden la tipografía, las formas y el color. Composición 100% gráfica.'
+  };
 
-  function conFoto(d){
-    return 'Usá la imagen que subí como referencia exacta de lo que vendo: ' + d.producto + '. ' +
-      'Es fundamental que NO modifiques el producto: mantené idéntica su forma, sus proporciones, su color, ' +
-      'su textura y cualquier logo o marca que tenga. Cambiá solamente el entorno y la luz.\n\n' +
-      'Poné el producto grande y centrado, como protagonista absoluto de la imagen, sobre un entorno simple ' +
-      'que no compita con él.\n\n' +
-      'Iluminación: ' + luces[d.luz] + '.\n' +
-      'Estilo: ' + estilos[d.estilo] + '.\n\n' +
-      REGLAS_ANUNCIO + (d.detalle ? '\n\nAdemás: ' + d.detalle + '.' : '');
-  }
+  var botones = {
+    whatsapp:  { texto:'QUIERO MÁS INFO',  icono:'del logo de WhatsApp' },
+    instagram: { texto:'ESCRIBIME',        icono:'de un ícono de mensaje' },
+    web:       { texto:'VER MÁS',          icono:'de un ícono de flecha' },
+    llamada:   { texto:'LLAMAME AHORA',    icono:'de un ícono de teléfono' }
+  };
 
-  function sinFoto(d){
-    var quien = d.cliente ? ' para ' + d.cliente : '';
-    var noInventar =
-      'MUY IMPORTANTE: no inventes ni dibujes el producto que vendo. No quiero que aparezca ningún ' +
-      'producto generado por vos, porque no sería el mío de verdad y estaría engañando a la gente. ' +
-      'Mostrá el ambiente, la situación y la emoción alrededor — nunca el producto en primer plano.';
+  function armarPrompt(d){
+    var items = d.incluye.split('\n').map(function(s){ return s.trim(); }).filter(Boolean);
+    var listaIncluye = items.length
+      ? items.map(function(s){ return '   - ' + s; }).join('\n')
+      : '   (no hay lista: salteá este bloque del diseño)';
 
-    var loQueVendo = 'lo que vendo (' + d.producto + ')' + quien;
+    var bloquePrecio = d.precio
+      ? '5. EL PRECIO — En una franja bien visible, con este texto exacto: "' + d.precio + '".'
+      : '5. (Sin precio: no inventes ninguno y no dejes ese espacio vacío, agrandá el resto.)';
 
-    var enfoques = {
-      escena:
-        'Quiero una fotografía del lugar y el momento donde se usa ' + loQueVendo + '. ' +
-        'El ambiente preparado y con vida, como si alguien estuviera por llegar. ' +
-        'El producto puede insinuarse fuera de foco o directamente no aparecer.\n\n' + noInventar,
-      resultado:
-        'Quiero una fotografía del momento de disfrute: personas reales viviendo el resultado de tener ' +
-        loQueVendo + '. Caras naturales, gestos espontáneos, nada de pose de catálogo. ' +
-        'El foco está en la gente y en el clima del momento.\n\n' + noInventar,
-      problema:
-        'Quiero una fotografía que muestre el problema que mi cliente tiene hoy, antes de resolverlo. ' +
-        'Una escena cotidiana, creíble, con la que se sienta identificado apenas la vea. ' +
-        'Sin dramatismo exagerado ni cara de sufrimiento actuada.\n\n' + noInventar,
-      grafico:
-        'Quiero un fondo gráfico abstracto para un anuncio, sin ningún producto ni persona. ' +
-        'Formas simples, textura sutil, mucho aire en el centro para que después le pueda poner el texto encima. ' +
-        'Que se vea profesional y moderno, no un fondo de plantilla.'
-    };
-
-    return enfoques[d.enfoque] + '\n\n' +
-      'Iluminación: ' + luces[d.luz] + '.\n' +
-      'Estilo: ' + estilos[d.estilo] + '.\n\n' +
-      REGLAS_ANUNCIO + (d.detalle ? '\n\nAdemás: ' + d.detalle + '.' : '');
+    return '' +
+'Diseñá una pieza gráfica publicitaria vertical, formato 4:5, para publicar en Instagram y Facebook. No es una fotografía suelta: es un anuncio completo, diseñado, con todos sus textos adentro y listo para subir.\n' +
+'\n' +
+'=== LOS DATOS DE MI NEGOCIO ===\n' +
+'Usá SOLO estos datos. No agregues servicios, precios, teléfonos, direcciones ni promesas que no estén acá.\n' +
+'\n' +
+'- Vendo: ' + d.producto + '\n' +
+'- El problema que tiene mi cliente hoy: ' + d.problema + '\n' +
+'- Lo que gana conmigo: ' + d.beneficio + '\n' +
+(items.length ? '- Lo que incluye:\n' + listaIncluye + '\n' : '') +
+(d.precio ? '- Precio u oferta: ' + d.precio + '\n' : '') +
+'\n' +
+'=== CÓMO TIENE QUE ESTAR ARMADO, DE ARRIBA HACIA ABAJO ===\n' +
+'\n' +
+'1. EL TITULAR, arriba de todo — Una pregunta grande, hecha a partir del problema: "¿' + mayus(d.problema) + '?". Repartila en dos o tres renglones y destacá la palabra más importante en otro color y más grande que el resto. Este texto es el que manda: tiene que leerse desde lejos.\n' +
+'\n' +
+'2. DOS RAZONES CORTAS, debajo del titular — Escribilas vos, a partir del problema y de lo que gana. Una frase por línea, cada una con un ícono simple a la izquierda. Cortas: no más de ocho palabras cada una.\n' +
+'\n' +
+'3. LA PARTE VISUAL, al centro — ' + visuales[d.visual] + '\n' +
+'\n' +
+(items.length
+  ? '4. LA CAJA DE LO QUE INCLUYE — Un recuadro con borde suave y el título "LO QUE INCLUYE". Adentro, esta lista exacta, cada ítem con su ícono propio a la izquierda:\n' + listaIncluye + '\n'
+  : '4. (No hay lista de lo que incluye: salteá este bloque.)\n') +
+'\n' +
+bloquePrecio + '\n' +
+'\n' +
+'6. LA FRASE DE CIERRE — Una frase corta de dos tiempos, tipo "Algo pasa. Algo cambia.", que contraponga el antes y el después. Escribila vos a partir del problema y de lo que gana. Va en mayúsculas, centrada, con la segunda mitad en color.\n' +
+'\n' +
+'7. LA BARRA DE ABAJO — Una franja ancha de lado a lado, en color fuerte, con un botón grande que diga "' + botones[d.accion].texto + '" acompañado ' + botones[d.accion].icono + '. Al costado del botón, tres beneficios de una o dos palabras cada uno, uno debajo del otro, sacados de lo que gana mi cliente.\n' +
+'\n' +
+'=== ESTILO ===\n' +
+paletas[d.paleta] + '\n' +
+'Tipografía sans serif, gruesa y muy legible. Jerarquía clara: el titular es lo más grande, después el cierre, después el resto. Nada de tipografías finas ni decorativas.\n' +
+'\n' +
+'=== REGLAS QUE NO SE ROMPEN ===\n' +
+'- Todo el texto en español rioplatense (de vos, no de tú), con las tildes bien puestas y sin errores de ortografía. Revisá cada palabra antes de entregar.\n' +
+'- No inventes precios, teléfonos, direcciones, sitios web, logos ni nombres de marca.\n' +
+'- No pongas texto de relleno ni frases en inglés.\n' +
+'- Que todo se lea en la pantalla de un celular sin tener que agrandar.\n' +
+'- Dejá aire: es mejor que sobre espacio a que quede amontonado.';
   }
 
   function tarjeta(rotulo, sub, texto){
@@ -432,43 +424,39 @@
 
   document.getElementById('form').addEventListener('submit', function(e){
     e.preventDefault();
+
     var d = {
       producto: document.getElementById('producto').value.trim(),
-      cliente: document.getElementById('cliente').value.trim(),
-      enfoque: document.getElementById('enfoque').value,
-      luz: document.getElementById('luz').value,
-      estilo: document.getElementById('estilo').value,
-      detalle: document.getElementById('detalle').value.trim()
+      problema: document.getElementById('problema').value.trim().replace(/^¿/,'').replace(/\?$/,''),
+      beneficio: document.getElementById('beneficio').value.trim(),
+      incluye: document.getElementById('incluye').value,
+      precio: document.getElementById('precio').value.trim(),
+      accion: document.getElementById('accion').value,
+      visual: document.getElementById('visual').value,
+      paleta: document.getElementById('paleta').value
     };
     if(!d.producto){ document.getElementById('producto').focus(); return; }
+    if(!d.problema){ document.getElementById('problema').focus(); return; }
+    if(!d.beneficio){ document.getElementById('beneficio').focus(); return; }
 
     var out = document.getElementById('salida');
     out.innerHTML = '';
 
-    if(tengoFoto){
-      out.appendChild(tarjeta(
-        'Con tu foto',
-        'Subí primero la foto de tu producto a ChatGPT o Gemini, y después pegá esto.',
-        conFoto(d)));
-      var a1 = document.createElement('div');
-      a1.className = 'aviso';
-      a1.innerHTML = '<b>Si te cambia el producto,</b> respondele en el mismo chat: "Me lo cambiaste. Usá exactamente lo que aparece en la foto que subí, sin modificar su forma ni su color. Cambiá solo el fondo y la luz."';
-      out.appendChild(a1);
-    } else {
-      out.appendChild(tarjeta(
-        'Sin foto',
-        'Pegá esto directamente en ChatGPT o Gemini. No hace falta subir nada.',
-        sinFoto(d)));
-      var a2 = document.createElement('div');
-      a2.className = 'aviso';
-      a2.innerHTML = '<b>Esto es para salir del paso.</b> El prompt le prohíbe expresamente inventar tu producto, porque una foto de algo que no vendés te trae problemas después. En cuanto puedas, sacale una foto real aunque sea con el celular — siempre gana.';
-      out.appendChild(a2);
-    }
+    var sub = d.visual === 'foto'
+      ? 'Subí primero tu foto a ChatGPT o Gemini, y después pegá esto.'
+      : 'Pegalo tal cual en ChatGPT o Gemini. No hace falta subir nada.';
+
+    out.appendChild(tarjeta('El pedido completo', sub, armarPrompt(d)));
+
+    var av = document.createElement('div');
+    av.className = 'aviso';
+    av.innerHTML = '<b>Revisá la ortografía antes de publicar.</b> Estas IA todavía escriben mal en español: se comen tildes y cambian letras adentro de una palabra. Leé cada texto del anuncio, letra por letra. Si ves un error, respondele en el mismo chat: "dejá todo igual, solo corregí la palabra X".';
+    out.appendChild(av);
 
     var sig = document.createElement('div');
     sig.className = 'siguiente';
-    sig.innerHTML = '<h3>¿Ya tenés el texto del anuncio?</h3>' +
-      '<p>La imagen sola no alcanza. El texto va en los campos que pide Meta, y eso te lo arma la otra herramienta.</p>' +
+    sig.innerHTML = '<h3>Te falta el texto del anuncio</h3>' +
+      '<p>Esto es la pieza que se ve. Aparte va el texto que Meta te pide al cargar el anuncio — el que aparece arriba de la imagen.</p>' +
       '<a href="/ayuda/anuncios">Ir al Generador de Anuncios →</a>';
     out.appendChild(sig);
 
